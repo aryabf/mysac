@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MySac" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+         <item name="colorPrimary">@color/pumpkin</item>
+         <item name="colorSecondary">@color/amber</item>
+    </style>
+
+    <style name="Theme.MySac" parent="Base.Theme.MySac">
+        <item name="android:fontFamily">@font/poppins</item>
+    </style>
+
+    <style name="ThemeOverlay.MyApp.Button" parent="">
+        <item name="android:background">@drawable/button_background</item>
+    </style>
+</resources>
