@@ -37,7 +37,30 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    // Navigation
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
+
+    // Circle Image View
+    implementation(libs.circleimageview)
+
+    // Glide
+    implementation(libs.glide)
+
+    // Splash Screen
+    implementation(libs.core.splashscreen)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // View Model
+    implementation(libs.lifecycle.viewmodel.ktx)
+
+    // Datastore
+    implementation(libs.datastore.preferences)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
