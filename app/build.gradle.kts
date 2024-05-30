@@ -56,9 +56,6 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
-    // View Model
-    implementation(libs.lifecycle.viewmodel.ktx)
-
     // Datastore
     implementation(libs.datastore.preferences)
 
