@@ -1,6 +1,8 @@
 package com.finalproject.mysac.ui.splash;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +11,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.finalproject.mysac.R;
+import com.finalproject.mysac.ui.home.HomeActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,5 +25,17 @@ public class SplashScreenActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //setelah loading maka akan langsung berpindah ke home activity
+                Intent home=new Intent(SplashScreenActivity.this, HomeActivity.class);
+                startActivity(home);
+                finish();
+            }
+        }, 3000);
+
     }
+
 }
