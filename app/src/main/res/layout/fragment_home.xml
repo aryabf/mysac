@@ -1,14 +1,407 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/home" />
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/beranda">
 
-</FrameLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:id="@+id/header"
+            android:background="@drawable/header_background"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/halo"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Halo,"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nama"
+            android:layout_marginStart="20dp"
+            android:text="Arya Bagus Farrazan"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/halo"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/masakapa"
+            android:text="Mau masak apa hari ini?"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@id/header"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/rekomendasi"
+            android:text="Rekomendasi Hari Ini"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="@color/pumpkin"
+            app:layout_constraintTop_toBottomOf="@id/masakapa"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <View
+            android:layout_width="135dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:background="@color/pumpkin"
+            app:layout_constraintStart_toEndOf="@id/rekomendasi"
+            app:layout_constraintTop_toTopOf="@id/rekomendasi"
+            app:layout_constraintBottom_toBottomOf="@id/rekomendasi"/>
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/viewrekomendasi"
+            android:layout_marginTop="20dp"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@id/rekomendasi"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/salmonrisotto"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="125dp"
+                        android:layout_height="125dp"
+                        android:id="@+id/salmonrisottoimg"
+                        app:shapeAppearanceOverlay="@style/RoundCorner"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/salmonrisottotext"
+                        android:text="Salmon Prawn Risotto"
+                        android:layout_marginTop="20dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/salmonrisottoimg"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/padseeew"
+                    app:layout_constraintStart_toEndOf="@id/salmonrisotto"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="125dp"
+                        android:layout_height="125dp"
+                        android:id="@+id/padseeewimg"
+                        app:shapeAppearanceOverlay="@style/RoundCorner"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/padseeewtext"
+                        android:text="Pad See Ew"
+                        android:layout_marginTop="20dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/padseeewimg"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/englishbreakfast"
+                    app:layout_constraintStart_toEndOf="@id/padseeew"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="125dp"
+                        android:layout_height="125dp"
+                        android:id="@+id/englishimg"
+                        app:shapeAppearanceOverlay="@style/RoundCorner"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/englishtext"
+                        android:text="English Breakfast"
+                        android:layout_marginTop="20dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/englishimg"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/pumpkinpie"
+                    app:layout_constraintStart_toEndOf="@id/englishbreakfast"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="125dp"
+                        android:layout_height="125dp"
+                        android:id="@+id/pumpkinimg"
+                        app:shapeAppearanceOverlay="@style/RoundCorner"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/pumpkintext"
+                        android:text="Pumpkin Pie"
+                        android:layout_marginTop="20dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pumpkinimg"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/creme"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintStart_toEndOf="@id/pumpkinpie"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="125dp"
+                        android:layout_height="125dp"
+                        android:id="@+id/cremeimg"
+                        app:shapeAppearanceOverlay="@style/RoundCorner"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/cremetext"
+                        android:text="White Chocolate Creme Brulee"
+                        android:layout_marginTop="20dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cremeimg"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </HorizontalScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/kategori"
+            android:text="Kategori Untuk Anda"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="@color/amber"
+            app:layout_constraintTop_toBottomOf="@id/viewrekomendasi"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <View
+            android:layout_width="138dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:background="@color/amber"
+            app:layout_constraintStart_toEndOf="@id/kategori"
+            app:layout_constraintTop_toTopOf="@id/kategori"
+            app:layout_constraintBottom_toBottomOf="@id/kategori"/>
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/viewkategori"
+            android:layout_marginTop="20dp"
+            android:scrollbars="none"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintTop_toBottomOf="@id/kategori"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pasta"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="125dp"
+                        android:layout_height="125dp"
+                        android:id="@+id/pastaimg"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/pastatext"
+                        android:text="Pasta"
+                        android:layout_marginTop="20dp"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pastaimg"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/chicken"
+                    app:layout_constraintStart_toEndOf="@id/pasta"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="125dp"
+                        android:layout_height="125dp"
+                        android:id="@+id/chickenimg"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/chickentext"
+                        android:text="Chicken"
+                        android:layout_marginTop="20dp"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/chickenimg"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/seafood"
+                    app:layout_constraintStart_toEndOf="@id/chicken"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="125dp"
+                        android:layout_height="125dp"
+                        android:id="@+id/seafoodimg"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/seafoodtext"
+                        android:text="Seafood"
+                        android:textSize="15sp"
+                        android:layout_marginTop="20dp"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/seafoodimg"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:id="@+id/dessert"
+                    app:layout_constraintStart_toEndOf="@id/seafood"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="125dp"
+                        android:layout_height="125dp"
+                        android:id="@+id/dessertimg"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/desserttext"
+                        android:text="Dessert"
+                        android:layout_marginTop="20dp"
+                        android:textSize="15sp"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/dessertimg"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </HorizontalScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
