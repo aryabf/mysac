@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="pumpkin">#FFFF790C</color>
     <color name="amber">#FFFFC20D</color>
+    <color name="darker_gray">#858585</color>
 </resources>
