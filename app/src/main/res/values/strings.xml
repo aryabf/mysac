@@ -2,4 +2,9 @@
     <string name="app_name">MySac</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logo_mysac">Mysac Profile</string>
+    <string name="developer1">Novany Sheila Viki</string>
+    <string name="developer2">Arya Bagus Farrazan</string>
+    <string name="developer3">Juan Damai Nduru</string>
+    <string name="developer4">Simon Rizky Valentino Simanjuntak</string>
 </resources>
