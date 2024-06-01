@@ -1,192 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.settings.EditProfileActivity">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editTextUsername"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Masukkan username anda"
-        android:background="@null"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp"
-        android:inputType="text"
-        android:padding="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp"
+        tools:context=".ui.settings.EditProfileActivity">
 
-    <View
-        android:id="@+id/usernameLine"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/editTextUsername"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/baseline_arrow_back_ios_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="?attr/colorOnBackground" />
 
-    <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Masukkan nama anda"
-        android:background="@null"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp"
-        android:inputType="text"
-        android:padding="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/usernameLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="24dp"
+            android:text="Sunting Proile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <View
-        android:id="@+id/nameLine"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/editTextName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    <EditText
-        android:id="@+id/editTextBio"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Bio Baru"
-        android:background="@null"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp"
-        android:inputType="text"
-        android:padding="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/nameLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+            <EditText
+                android:id="@+id/tiet_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:inputType="text"
+                android:textSize="16sp"/>
 
-    <View
-        android:id="@+id/bioLine"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/editTextBio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editTextFacebook"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Akun Facebook anda"
-        android:background="@null"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp"
-        android:inputType="text"
-        android:padding="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/bioLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/til_username"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    <View
-        android:id="@+id/facebookLine"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/editTextFacebook"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+            <EditText
+                android:id="@+id/tiet_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username Baru"
+                android:inputType="text"
+                android:textSize="16sp"/>
 
-    <EditText
-        android:id="@+id/editTextInstagram"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Akun Instagram anda"
-        android:background="@null"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp"
-        android:inputType="text"
-        android:padding="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/facebookLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <View
-        android:id="@+id/instagramLine"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/editTextInstagram"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_bio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/til_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    <EditText
-        android:id="@+id/editTextYoutube"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Akun Youtube anda"
-        android:background="@null"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="12dp"
-        android:inputType="text"
-        android:padding="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/instagramLine"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+            <EditText
+                android:id="@+id/tiet_bio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Bio"
+                android:inputType="text"
+                android:textSize="16sp"/>
 
-    <View
-        android:id="@+id/youtubeLine"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/editTextYoutube"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginTop="88dp"
-        android:backgroundTint="@android:color/holo_orange_light"
-        android:letterSpacing="0.1"
-        android:text="S I M P A N"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/youtubeLine" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/til_bio"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/tiet_facebook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Link Facebook"
+                android:inputType="text"
+                android:textSize="16sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_instagram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/til_facebook"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <EditText
+                android:id="@+id/tiet_instagram"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Link Instagram"
+                android:inputType="text"
+                android:textSize="16sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_youtube"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/til_instagram"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <EditText
+                android:id="@+id/tiet_youtube"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Link YouTube"
+                android:inputType="text"
+                android:textSize="16sp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/button_background"
+            android:letterSpacing="0.1"
+            android:text="S I M P A N"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_youtube" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

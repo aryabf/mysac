@@ -195,13 +195,6 @@
             android:layout_marginHorizontal="8dp"/>
 
         <ImageView
-            android:id="@+id/icon_twitter"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/twitter"
-            android:layout_marginHorizontal="8dp"/>
-
-        <ImageView
             android:id="@+id/icon_instagram"
             android:layout_width="32dp"
             android:layout_height="32dp"
