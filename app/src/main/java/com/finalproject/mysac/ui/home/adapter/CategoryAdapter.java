@@ -1,5 +1,7 @@
 package com.finalproject.mysac.ui.home.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.finalproject.mysac.R;
 import com.finalproject.mysac.data.model.Kategori;
+import com.finalproject.mysac.ui.recipes.RecipeDetailActivity;
+import com.finalproject.mysac.ui.recipes.RecipeListActivity;
 
 import java.util.ArrayList;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
     public ArrayList<Kategori> listKategori;
+    Context context;
 
     @NonNull
     @Override
@@ -31,6 +36,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Glide.with(holder.itemView.getRootView().getContext()).load(listKategori.get(position).getGambar()).into(ivCategory);
         tvCategory.setText(listKategori.get(position).getNama());
+        holder.itemView.getRootView().setOnClickListener(view -> {
+            Intent intent = new Intent(context, RecipeListActivity.class);
+            intent.putExtra("category", listKategori.get(position).getNama());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -57,8 +67,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         }
     }
 
-    public CategoryAdapter(ArrayList<Kategori> listKategori) {
+    public CategoryAdapter(ArrayList<Kategori> listKategori, Context context) {
+
         this.listKategori = listKategori;
+        this.context = context;
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {

@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
                     listKategori = new ArrayList<>(listKategori.subList(0, 4));
                     rvKategori.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
                     rvKategori.setHasFixedSize(true);
-                    HomeCategoryAdapter adapterCategory = new HomeCategoryAdapter(listKategori);
+                    HomeCategoryAdapter adapterCategory = new HomeCategoryAdapter(listKategori, getContext());
                     rvKategori.setAdapter(adapterCategory);
                     int horizontalSpace = getResources().getDimensionPixelSize(R.dimen.horizontal_margin);
                     rvKategori.addItemDecoration(new HomeCategoryAdapter.HorizontalSpaceItemDecoration(horizontalSpace));

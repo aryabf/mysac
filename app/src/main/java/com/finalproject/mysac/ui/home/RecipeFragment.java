@@ -62,7 +62,7 @@ public class RecipeFragment extends Fragment {
                     listKategori = response.body().getKategori();
                     rvRecipe.setLayoutManager(new LinearLayoutManager(view.getContext()));
                     rvRecipe.setHasFixedSize(true);
-                    CategoryAdapter adapterCategory = new CategoryAdapter(listKategori);
+                    CategoryAdapter adapterCategory = new CategoryAdapter(listKategori, getContext());
                     rvRecipe.setAdapter(adapterCategory);
                     int verticalSpace = getResources().getDimensionPixelSize(R.dimen.horizontal_margin);
                     rvRecipe.addItemDecoration(new CategoryAdapter.VerticalSpaceItemDecoration(verticalSpace));

@@ -1,5 +1,7 @@
 package com.finalproject.mysac.ui.home.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.finalproject.mysac.R;
 import com.finalproject.mysac.data.model.Kategori;
+import com.finalproject.mysac.ui.recipes.RecipeListActivity;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapter.HomeCategoryViewHolder> {
 
     public ArrayList<Kategori> listKategori;
+    Context context;
 
     public static class HorizontalSpaceItemDecoration extends RecyclerView.ItemDecoration {
 
@@ -40,8 +44,9 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     }
 
 
-    public HomeCategoryAdapter(ArrayList<Kategori> listKategori) {
+    public HomeCategoryAdapter(ArrayList<Kategori> listKategori, Context context) {
         this.listKategori = listKategori;
+        this.context = context;
     }
 
     @NonNull
@@ -55,6 +60,11 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     public void onBindViewHolder(@NonNull HomeCategoryViewHolder holder, int position) {
         Glide.with(holder.itemView.getRootView().getContext()).load(listKategori.get(position).getGambar()).into(sivCategoryImg);
         tvCategoryName.setText(listKategori.get(position).getNama());
+        holder.itemView.getRootView().setOnClickListener(view -> {
+            Intent intent = new Intent(context, RecipeListActivity.class);
+            intent.putExtra("category", listKategori.get(position).getNama());
+            context.startActivity(intent);
+        });
     }
 
     @Override
