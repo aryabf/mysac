@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.finalproject.mysac.R;
+import com.finalproject.mysac.data.local.preferences.SharedPreferencesManager;
 import com.finalproject.mysac.ui.home.HomeActivity;
 import com.finalproject.mysac.ui.recipes.RecipeDetailActivity;
 import com.finalproject.mysac.ui.auth.MainActivity;
@@ -22,6 +23,7 @@ import com.finalproject.mysac.ui.auth.MainActivity;
 public class SplashScreenActivity extends AppCompatActivity {
 
     private static  final long ANIMATION_DELAY = 50; //delay per huruf dalam milidetik
+    private SharedPreferencesManager sharedPreferencesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,10 @@ public class SplashScreenActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        sharedPreferencesManager = new SharedPreferencesManager(getBaseContext());
+
+        boolean isLoggedIn = sharedPreferencesManager.isLoggedIn();
 
         ImageView logo = findViewById(R.id.iv_logo);
         Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
@@ -47,7 +53,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                if (isLoggedIn) {
+                    startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                } else {
+                    startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                }
                 finish();
             }
         }, text.length() * ANIMATION_DELAY + 1000); //delay berdasarkan panjang teks ditambah waktu tambahan

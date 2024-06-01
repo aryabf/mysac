@@ -16,6 +16,7 @@ constraintlayout = "2.1.4"
 navigationFragmentKtx = "2.7.7"
 navigationFragmentKtxVersion = "2.6.0"
 retrofit = "2.9.0"
+datastorePreferencesRxjava3 = "1.1.1"
 
 [libraries]
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
@@ -36,6 +37,7 @@ navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-kt
 navigation-fragment-ktx-v260 = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtxVersion" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+datastore-preferences-rxjava3 = { group = "androidx.datastore", name = "datastore-preferences-rxjava3", version.ref = "datastorePreferencesRxjava3" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

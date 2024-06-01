@@ -58,6 +58,8 @@ dependencies {
 
     // Datastore
     implementation(libs.datastore.preferences)
+    implementation("androidx.datastore:datastore-rxjava3:1.1.1")
+    implementation(libs.datastore.preferences.rxjava3)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

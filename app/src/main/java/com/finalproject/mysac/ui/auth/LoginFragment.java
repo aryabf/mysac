@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.finalproject.mysac.R;
+import com.finalproject.mysac.data.local.preferences.SharedPreferencesManager;
 import com.finalproject.mysac.ui.home.HomeActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -25,6 +26,7 @@ public class LoginFragment extends Fragment {
     TextInputEditText tietPassword;
     Button btnLogin;
     TextView tvRegister;
+    private SharedPreferencesManager sharedPreferencesManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        sharedPreferencesManager = new SharedPreferencesManager(getContext());
         bindViews(view);
 
         tvRegister.setOnClickListener(view1 -> {
@@ -48,6 +51,8 @@ public class LoginFragment extends Fragment {
         });
 
         btnLogin.setOnClickListener(view1 -> {
+            sharedPreferencesManager.setIsLoggedIn(true);
+
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
