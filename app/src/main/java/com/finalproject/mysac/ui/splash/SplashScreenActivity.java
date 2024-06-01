@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.finalproject.mysac.R;
 import com.finalproject.mysac.ui.home.HomeActivity;
+import com.finalproject.mysac.ui.recipes.RecipeDetailActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -30,7 +31,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //setelah loading maka akan langsung berpindah ke home activity
-                Intent home=new Intent(SplashScreenActivity.this, HomeActivity.class);
+                Intent home=new Intent(SplashScreenActivity.this, RecipeDetailActivity.class);
                 startActivity(home);
                 finish();
             }

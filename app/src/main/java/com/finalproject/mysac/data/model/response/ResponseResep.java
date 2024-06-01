@@ -14,6 +14,8 @@ public class ResponseResep {
     String instruksi;
     @SerializedName("strThumbnail")
     String gambar;
+    @SerializedName("strArea")
+    String area;
     @SerializedName("strIngredient1")
     String bahan1;
 

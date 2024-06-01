@@ -9,10 +9,11 @@ public class Resep {
     String linkGambar;
     String[] bahanBahan;
     String pembuat;
+    String area;
     String[] ukuranUkuran;
     byte[] gambar;
 
-    public Resep(String id, String nama, String kategori, String instruksi, String linkGambar, String pembuat, byte[] gambar) {
+    public Resep(String id, String nama, String kategori, String instruksi, String linkGambar, String pembuat, String area, byte[] gambar) {
         this.id = id;
         this.nama = nama;
         this.kategori = kategori;
@@ -20,6 +21,7 @@ public class Resep {
         this.linkGambar = linkGambar;
         this.pembuat = pembuat;
         this.gambar = gambar;
+        this.area = area;
     }
 
 }
