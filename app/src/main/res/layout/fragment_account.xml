@@ -15,12 +15,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@color/white"
+        app:civ_border_width="5dp"
+        app:civ_border_color="@color/white"
+        app:layout_constraintTop_toTopOf="@id/background_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="100dp"/>
+
     <!-- Foto Profil -->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/user"
+        android:src="@drawable/ic_baseline_account_circle_24"
         app:civ_border_width="5dp"
         app:civ_border_color="@color/white"
         app:layout_constraintTop_toTopOf="@id/background_view"
@@ -189,22 +200,22 @@
 
         <ImageView
             android:id="@+id/icon_facebook"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/facebook"
             android:layout_marginHorizontal="8dp"/>
 
         <ImageView
             android:id="@+id/icon_instagram"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/instagram"
             android:layout_marginHorizontal="8dp"/>
 
         <ImageView
             android:id="@+id/icon_youtube"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/youtube"
             android:layout_marginHorizontal="8dp"/>
     </LinearLayout>

@@ -43,6 +43,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
     RecyclerView rvIngredients;
     TextView tvInstructions;
     ConstraintLayout clDetail;
+    ConstraintLayout clHeaders;
     ProgressBar pbDetail;
     ShapeableImageView sivMeal;
     TextView tvName;
@@ -72,12 +73,14 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
         bindViews();
         clDetail.setVisibility(View.GONE);
+        clHeaders.setVisibility(View.GONE);
         APIServices client = RetrofitBuilder.builder(this).create(APIServices.class);
         client.getMealById(mealId).enqueue(new Callback<ResponseDaftarResep>() {
             @Override
             public void onResponse(Call<ResponseDaftarResep> call, Response<ResponseDaftarResep> response) {
                 pbDetail.setVisibility(View.GONE);
                 clDetail.setVisibility(View.VISIBLE);
+                clHeaders.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
 
                     ResponseResepConverter converter = new ResponseResepConverter();
@@ -111,6 +114,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
             public void onFailure(Call<ResponseDaftarResep> call, Throwable t) {
                 pbDetail.setVisibility(View.GONE);
                 clDetail.setVisibility(View.VISIBLE);
+                clHeaders.setVisibility(View.VISIBLE);
                 Toast.makeText(RecipeDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -157,6 +161,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         rvIngredients = findViewById(R.id.rv_ingredients);
         tvInstructions = findViewById(R.id.tv_instruction);
         clDetail = findViewById(R.id.cl_main);
+        clHeaders = findViewById(R.id.cl_headers);
         pbDetail = findViewById(R.id.pb_detail);
         sivMeal = findViewById(R.id.siv_meal);
         tvName = findViewById(R.id.tv_name);
