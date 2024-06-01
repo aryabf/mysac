@@ -55,7 +55,6 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     public void onBindViewHolder(@NonNull HomeCategoryViewHolder holder, int position) {
         Glide.with(holder.itemView.getRootView().getContext()).load(listKategori.get(position).getGambar()).into(sivCategoryImg);
         tvCategoryName.setText(listKategori.get(position).getNama());
-        Log.d("ribet bgt gak", "onBindViewHolder: " + getItemCount());
     }
 
     @Override
