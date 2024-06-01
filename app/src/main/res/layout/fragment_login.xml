@@ -10,7 +10,7 @@
     tools:context=".ui.auth.LoginFragment">
 
     <TextView
-        android:id="@+id/welcomeTextView"
+        android:id="@+id/tv_title_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Welcome Back"
@@ -20,7 +20,7 @@
         android:layout_marginTop="40dp" />
 
     <TextView
-        android:id="@+id/subtitleTextView"
+        android:id="@+id/tv_subtitle_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login to continue."
@@ -28,7 +28,7 @@
         android:textColor="@android:color/black" />
 
     <ImageView
-        android:id="@+id/logoImageView"
+        android:id="@+id/iv_logo_login"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
@@ -62,7 +62,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/forgotPasswordTextView"
+        android:id="@+id/tv_forgotpw_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Forgot Password?"
@@ -90,7 +90,7 @@
         android:layout_marginTop="12dp">
 
         <TextView
-            android:id="@+id/haveaccount_tv_register"
+            android:id="@+id/tv_haveacc_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tidak punya akun?"
@@ -98,7 +98,7 @@
             android:textColor="@android:color/black" />
 
         <TextView
-            android:id="@+id/loginlink_register"
+            android:id="@+id/tv_registlink_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" Register"
