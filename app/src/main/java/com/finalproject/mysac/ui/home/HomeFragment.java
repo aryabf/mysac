@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment {
 
         rvRekomendasi.setHasFixedSize(true);
         rvRekomendasi.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        HomeMealAdapter adapterMeal = new HomeMealAdapter(listResep);
+        HomeMealAdapter adapterMeal = new HomeMealAdapter(listResep, view.getContext());
         rvRekomendasi.setAdapter(adapterMeal);
 
         int horizontalSpace = getResources().getDimensionPixelSize(R.dimen.horizontal_margin);

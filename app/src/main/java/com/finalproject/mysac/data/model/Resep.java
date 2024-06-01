@@ -1,5 +1,7 @@
 package com.finalproject.mysac.data.model;
 
+import java.util.ArrayList;
+
 public class Resep {
 
     String id;
@@ -44,11 +46,11 @@ public class Resep {
         this.linkGambar = linkGambar;
     }
 
-    public String[] getBahanBahan() {
+    public ArrayList<String> getBahanBahan() {
         return bahanBahan;
     }
 
-    public void setBahanBahan(String[] bahanBahan) {
+    public void setBahanBahan(ArrayList<String> bahanBahan) {
         this.bahanBahan = bahanBahan;
     }
 
@@ -68,11 +70,11 @@ public class Resep {
         this.area = area;
     }
 
-    public String[] getUkuranUkuran() {
+    public ArrayList<String> getUkuranUkuran() {
         return ukuranUkuran;
     }
 
-    public void setUkuranUkuran(String[] ukuranUkuran) {
+    public void setUkuranUkuran(ArrayList<String> ukuranUkuran) {
         this.ukuranUkuran = ukuranUkuran;
     }
 
@@ -88,10 +90,10 @@ public class Resep {
     String kategori;
     String instruksi;
     String linkGambar;
-    String[] bahanBahan;
+    ArrayList<String> bahanBahan;
     String pembuat;
     String area;
-    String[] ukuranUkuran;
+    ArrayList<String> ukuranUkuran;
     byte[] gambar;
 
     public Resep(String id, String nama, String kategori, String instruksi, String linkGambar, String pembuat, String area, byte[] gambar) {

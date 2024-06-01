@@ -19,4 +19,9 @@ public interface APIServices {
     @GET("filter.php")
     Call<ResponseDaftarResep> getMealListByCategory(@Query("c") String kategori);
 
+    // Get Meal by ID
+    // URL: www.themealdb.com/api/json/v1/1/lookup.php?i=52794
+    @GET("lookup.php")
+    Call<ResponseDaftarResep> getMealById(@Query("i") String id);
+
 }

@@ -1,5 +1,8 @@
 package com.finalproject.mysac.ui.home.adapter;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.finalproject.mysac.R;
 import com.finalproject.mysac.data.model.Kategori;
 import com.finalproject.mysac.data.model.Resep;
+import com.finalproject.mysac.ui.recipes.RecipeDetailActivity;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
@@ -21,6 +25,7 @@ import java.util.ArrayList;
 public class HomeMealAdapter extends RecyclerView.Adapter<HomeMealAdapter.HomeMealViewHolder> {
 
     public ArrayList<Resep> listMeal;
+    Context context;
 
     public static class HorizontalSpaceItemDecoration extends RecyclerView.ItemDecoration {
 
@@ -40,8 +45,9 @@ public class HomeMealAdapter extends RecyclerView.Adapter<HomeMealAdapter.HomeMe
         }
     }
 
-    public HomeMealAdapter(ArrayList<Resep> listMeal) {
+    public HomeMealAdapter(ArrayList<Resep> listMeal, Context context) {
         this.listMeal = listMeal;
+        this.context = context;
     }
 
     @NonNull
@@ -64,6 +70,11 @@ public class HomeMealAdapter extends RecyclerView.Adapter<HomeMealAdapter.HomeMe
         } else {
             tvMealCreator.setText("The Meal DB");
         }
+        holder.itemView.getRootView().setOnClickListener(view -> {
+            Intent intent = new Intent(context, RecipeDetailActivity.class);
+            intent.putExtra("mealId", listMeal.get(position).getId());
+            context.startActivity(intent);
+        });
     }
 
     @Override
