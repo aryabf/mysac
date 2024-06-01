@@ -13,4 +13,8 @@
     <style name="ThemeOverlay.MyApp.Button" parent="">
         <item name="android:background">@drawable/button_background</item>
     </style>
+    <!-- Splash Screen Theme -->
+    <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
 </resources>
