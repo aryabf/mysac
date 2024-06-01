@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.finalproject.mysac.R;
+import com.finalproject.mysac.ui.auth.MainActivity;
 import com.finalproject.mysac.ui.settings.AboutUsActivity;
 import com.finalproject.mysac.ui.settings.ChangePasswordActivity;
 import com.finalproject.mysac.ui.settings.EditProfileActivity;
@@ -50,7 +51,9 @@ public class SettingsFragment extends Fragment {
         });
 
         buttonLogout.setOnClickListener(v -> {
-            // keluar
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
 
         return view;

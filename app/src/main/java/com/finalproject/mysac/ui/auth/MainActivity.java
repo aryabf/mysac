@@ -22,10 +22,5 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fcv_main, new LoginFragment()).commit();
 
-        // Memuat AccountFragment ke dalam MainActivity
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.fcv_main, new AccountFragment())
-                .commit();
     }
 }
