@@ -31,7 +31,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //setelah loading maka akan langsung berpindah ke home activity
-                Intent home=new Intent(SplashScreenActivity.this, RecipeDetailActivity.class);
+                Intent home=new Intent(SplashScreenActivity.this, HomeActivity.class);
                 startActivity(home);
                 finish();
             }

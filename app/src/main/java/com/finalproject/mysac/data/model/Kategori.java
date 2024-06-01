@@ -5,16 +5,48 @@ import com.google.gson.annotations.SerializedName;
 public class Kategori {
 
     @SerializedName("idCategori")
-    private int id;
+    int id;
 
     @SerializedName("strCategory")
-    private String nama;
+    String nama;
 
     @SerializedName("strCategoryThumb")
-    private String gambar;
+    String gambar;
 
     @SerializedName("strCategoryDescription")
-    private String deskripsi;
+    String deskripsi;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    public String getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(String gambar) {
+        this.gambar = gambar;
+    }
+
+    public String getDeskripsi() {
+        return deskripsi;
+    }
+
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
+    }
 
     public Kategori(int id, String nama, String gambar, String deskripsi) {
         this.id = id;
