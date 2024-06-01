@@ -11,9 +11,9 @@
         android:id="@+id/buttonEditProfile"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginVertical="8dp"
         android:text="Sunting Profil"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:background="?android:attr/selectableItemBackground"
         android:textColor="@android:color/black"
@@ -26,9 +26,11 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <View
+        android:id="@+id/v_about"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/pumpkin"
+        android:layout_marginVertical="8dp"
         app:layout_constraintTop_toBottomOf="@+id/buttonEditProfile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -37,9 +39,8 @@
         android:id="@+id/buttonAboutUs"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:text="Tentang Kami"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:background="?android:attr/selectableItemBackground"
         android:textColor="@android:color/black"
@@ -47,14 +48,16 @@
         android:paddingLeft="16dp"
         android:layout_marginTop="8dp"
         android:drawableEnd="@drawable/baseline_info_24"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEditProfile"
+        app:layout_constraintTop_toBottomOf="@+id/v_about"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <View
+        android:id="@+id/v_change_pass"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/pumpkin"
+        android:layout_marginVertical="8dp"
         app:layout_constraintTop_toBottomOf="@+id/buttonAboutUs"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -63,17 +66,17 @@
         android:id="@+id/buttonChangePassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginVertical="8dp"
         android:text="Ubah Kata Sandi"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:layout_marginTop="8dp"
         android:background="?android:attr/selectableItemBackground"
         android:textColor="@android:color/black"
         android:gravity="start"
         android:paddingLeft="16dp"
-        android:layout_marginTop="8dp"
         android:drawableEnd="@drawable/baseline_lock_24"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAboutUs"
+        app:layout_constraintTop_toBottomOf="@+id/v_change_pass"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -1,6 +1,8 @@
 package com.finalproject.mysac.ui.settings;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,8 @@ import com.finalproject.mysac.R;
 
 public class AboutUsActivity extends AppCompatActivity {
 
+    ImageView ivBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +26,15 @@ public class AboutUsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        bindViews();
+
+        ivBack.setOnClickListener(view -> {
+            finish();
+        });
+    }
+
+    void bindViews() {
+        ivBack = findViewById(R.id.iv_back);
     }
 }

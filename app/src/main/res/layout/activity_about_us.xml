@@ -1,282 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".ui.settings.AboutUsActivity">
+    android:layout_height="match_parent">
 
-    <!-- MySac Logo -->
-    <ImageView
-        android:id="@+id/logoMySac"
-        android:layout_width="170dp"
-        android:layout_height="167dp"
-        android:contentDescription="@string/logo_mysac"
-        android:src="@drawable/mysac_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- MySac Title -->
-
-    <!-- MySac Description -->
-
-    <!-- API Source -->
-
-    <TextView
-        android:id="@+id/textViewMySacDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Mysac -- Masak -- My Sac merupakan sebuah aplikasi yang berisi kumpulan resep yang dikelompokkan dalam beberapa kategori. Selain itu, pengguna juga dapat menambah resep buatannya ke dalam aplikasi. Fitur akun yang terdapat pada aplikasi ini masih berupa data local sehingga belum dapat digunakan online."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="207dp" />
-
-    <TextView
-        android:id="@+id/textViewApiSourceTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Sumber API"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewMySacDescription" />
-
-    <TextView
-        android:id="@+id/textViewApiSource"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="https://www.themealdb.com/api.php"
-        android:textColor="@android:color/holo_orange_dark"
-        app:layout_constraintTop_toBottomOf="@id/textViewApiSourceTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="4dp"/>
-
-    <!-- Thanks -->
-
-    <TextView
-        android:id="@+id/textViewThanksTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Terima Kasih"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewApiSource" />
-
-    <TextView
-        android:id="@+id/textViewThanks"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="- Tuhan Yang Maha Esa\n- Bapak Radinal Setyadinsa, S.Pd., M.T.I. selaku tenaga pendidik mata kuliah pemograman mobile\n- Teman-teman sekelompok dalam pengerjaan\n- Spotify yang menemani Ketika pengerjaan."
-        app:layout_constraintTop_toBottomOf="@id/textViewThanksTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="4dp"/>
-
-    <!-- Developer Profiles -->
-
-    <!-- Developer 1 -->
-    <TextView
-        android:id="@+id/textViewDeveloperProfilesTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Profil Pengembang"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewThanks" />
-
-    <LinearLayout
-        android:id="@+id/developerProfile1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/textViewDeveloperProfilesTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="32dp"
+        tools:context=".ui.settings.AboutUsActivity">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/novany"
-            android:contentDescription="@string/developer1"
-            android:layout_marginEnd="8dp"/>
+            android:id="@+id/iv_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/baseline_arrow_back_ios_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="?attr/colorOnBackground" />
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Novany Sheila Viki"
-                android:textStyle="bold"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2110511085"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="S1 Informatika'21"
-                android:textSize="14sp"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Developer 2 -->
-    <LinearLayout
-        android:id="@+id/developerProfile2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/developerProfile1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp">
-
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="24dp"
+            android:text="Tentang Kami"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <!-- MySac Logo -->
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/arya"
-            android:contentDescription="@string/developer2"
-            android:layout_marginEnd="8dp"/>
+            android:id="@+id/logoMySac"
+            android:layout_width="170dp"
+            android:layout_height="167dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/logo_mysac"
+            android:src="@drawable/mysac_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
-        <LinearLayout
+        <!-- MySac Title -->
+
+        <!-- MySac Description -->
+
+        <!-- API Source -->
+
+        <TextView
+            android:id="@+id/textViewMySacDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:text="Mysac -- Masak -- My Sac merupakan sebuah aplikasi yang berisi kumpulan resep yang dikelompokkan dalam beberapa kategori. Selain itu, pengguna juga dapat menambah resep buatannya ke dalam aplikasi. Fitur akun yang terdapat pada aplikasi ini masih berupa data local sehingga belum dapat digunakan online."
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logoMySac" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Arya Bagus Farrazan"
-                android:textStyle="bold"
-                android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/textViewApiSourceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Sumber API"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewMySacDescription" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2110511093"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="S1 Informatika'21"
-                android:textSize="14sp"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Developer 3 -->
-    <LinearLayout
-        android:id="@+id/developerProfile3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/developerProfile2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/juan"
-            android:contentDescription="@string/developer3"
-            android:layout_marginEnd="8dp"/>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/textViewApiSource"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:text="https://www.themealdb.com/api.php"
+            android:textColor="@android:color/holo_orange_dark"
+            app:layout_constraintTop_toBottomOf="@id/textViewApiSourceTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Juan Damai Nduru"
-                android:textStyle="bold"
-                android:textSize="16sp"/>
+        <!-- Thanks -->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2110511098"
-                android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/textViewThanksTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Terima Kasih"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewApiSource" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="S1 Informatika'21"
-                android:textSize="14sp"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Developer 4 -->
-    <LinearLayout
-        android:id="@+id/developerProfile4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/developerProfile3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/simon"
-            android:contentDescription="@string/developer4"
-            android:layout_marginEnd="8dp"/>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/textViewThanks"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:text="- Tuhan Yang Maha Esa\n- Bapak Radinal Setyadinsa, S.Pd., M.T.I. selaku tenaga pendidik mata kuliah pemograman mobile\n- Teman-teman sekelompok dalam pengerjaan\n- Spotify yang menemani Ketika pengerjaan."
+            app:layout_constraintTop_toBottomOf="@id/textViewThanksTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Simon Rizky Valentino Simanjuntak"
-                android:textStyle="bold"
-                android:textSize="16sp"/>
+        <!-- Developer Profiles -->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2110511105"
-                android:textSize="14sp"/>
+        <!-- Developer 1 -->
+        <TextView
+            android:id="@+id/textViewDeveloperProfilesTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Profil Pengembang"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewThanks" />
 
-            <TextView
-                android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/developerProfile1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/textViewDeveloperProfilesTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/novany"
+                android:contentDescription="@string/developer1"
+                android:layout_marginEnd="8dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="S1 Informatika'21"
-                android:textSize="14sp"/>
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Novany Sheila Viki"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2110511085"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="S1 Informatika'21"
+                    android:textSize="14sp"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Developer 2 -->
+        <LinearLayout
+            android:id="@+id/developerProfile2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/developerProfile1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/arya"
+                android:contentDescription="@string/developer2"
+                android:layout_marginEnd="8dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Arya Bagus Farrazan"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2110511093"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="S1 Informatika'21"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Developer 3 -->
+        <LinearLayout
+            android:id="@+id/developerProfile3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/developerProfile2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/juan"
+                android:contentDescription="@string/developer3"
+                android:layout_marginEnd="8dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Juan Damai Nduru"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2110511098"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="S1 Informatika'21"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Developer 4 -->
+        <LinearLayout
+            android:id="@+id/developerProfile4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/developerProfile3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/simon"
+                android:contentDescription="@string/developer4"
+                android:layout_marginEnd="8dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Simon Rizky Valentino Simanjuntak"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2110511105"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="S1 Informatika'21"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
