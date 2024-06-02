@@ -15,6 +15,7 @@ import static com.finalproject.mysac.data.local.db.DbContract.UserEntry.TABLE_US
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -55,7 +56,13 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_USER_LINK_IG, "");
         values.put(KEY_USER_LINK_YT, "");
         values.put(KEY_USER_PHOTO, (Byte) null);
-        return db.insert(TABLE_USER, null, values);
+
+        try {
+            return db.insertOrThrow(TABLE_USER, null, values);
+        } catch (SQLiteConstraintException e) {
+            // Username sudah ada, kembalikan -1 atau pesan error
+            return -1;
+        }
     }
 
     public boolean login(String username, String password) {

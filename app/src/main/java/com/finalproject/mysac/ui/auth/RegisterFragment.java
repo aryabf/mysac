@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.finalproject.mysac.R;
 import com.finalproject.mysac.data.local.db.DbHelper;
@@ -67,8 +68,14 @@ public class RegisterFragment extends Fragment {
                 snackbar.show();
             } else {
                 try {
-                    dbHelper.registerUser(username, name, password);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fcv_main, new LoginFragment()).commit();
+                    if (dbHelper.registerUser(username, name, password) == -1) {
+                        Snackbar snackbar = Snackbar.make(view, "Username sudah digunakan.", Snackbar.LENGTH_SHORT);
+                        snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                        snackbar.show();
+                    } else {
+                        Toast.makeText(view.getContext(), "Akun \"" + username + "\" berhasil dibuat", Toast.LENGTH_SHORT).show();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fcv_main, new LoginFragment()).commit();
+                    }
                 } catch (Exception e) {
                     Snackbar snackbar = Snackbar.make(view, "Gagal menambahkan akun.", Snackbar.LENGTH_SHORT);
                     snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
