@@ -1,6 +1,7 @@
 package com.finalproject.mysac.ui.recipes;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.finalproject.mysac.R;
+import com.finalproject.mysac.data.local.db.DbHelper;
 import com.finalproject.mysac.data.model.Resep;
 import com.finalproject.mysac.data.model.response.ResponseDaftarResep;
 import com.finalproject.mysac.data.model.response.ResponseResep;
@@ -51,6 +53,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
     TextView tvArea;
     TextView tvUsername;
     ImageView ivBack;
+    DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,50 +77,79 @@ public class RecipeDetailActivity extends AppCompatActivity {
         bindViews();
         clDetail.setVisibility(View.GONE);
         clHeaders.setVisibility(View.GONE);
-        APIServices client = RetrofitBuilder.builder(this).create(APIServices.class);
-        client.getMealById(mealId).enqueue(new Callback<ResponseDaftarResep>() {
-            @Override
-            public void onResponse(Call<ResponseDaftarResep> call, Response<ResponseDaftarResep> response) {
-                pbDetail.setVisibility(View.GONE);
-                clDetail.setVisibility(View.VISIBLE);
-                clHeaders.setVisibility(View.VISIBLE);
-                if (response.isSuccessful()) {
 
-                    ResponseResepConverter converter = new ResponseResepConverter();
+        Log.d("hahah", "onCreate: dapet ini lokal ybg " + mealId);
 
-                    ResponseResep responseResep = response.body().getDaftarResep().get(0);
-                    Resep resepView = converter.responseToResep(responseResep);
+        if (mealId.length() > 10) {
+            Resep resepView = dbHelper.getRecipeById(mealId);
 
-                    if (resepView.getLinkGambar() != null && !resepView.getLinkGambar().isEmpty()) {
-                        Glide.with(RecipeDetailActivity.this).load(resepView.getLinkGambar()).into(sivMeal);
+            if (resepView.getLinkGambar() != null && !resepView.getLinkGambar().isEmpty()) {
+                Glide.with(RecipeDetailActivity.this).load(resepView.getLinkGambar()).into(sivMeal);
+            } else {
+                Glide.with(RecipeDetailActivity.this).load(resepView.getGambar()).into(sivMeal);
+            }
+            rvIngredients.setHasFixedSize(true);
+            rvIngredients.setLayoutManager(new LinearLayoutManager(RecipeDetailActivity.this));
+
+            RecipeDetailAdapter adapter = new RecipeDetailAdapter(resepView.getBahanBahan(), resepView.getUkuranUkuran());
+            rvIngredients.setAdapter(adapter);
+
+            tvName.setText(resepView.getNama());
+            tvCategory.setText(resepView.getKategori());
+            tvArea.setText(resepView.getArea());
+            tvUsername.setText(resepView.getPembuat());
+            tvInstructions.setText(resepView.getInstruksi());
+
+            pbDetail.setVisibility(View.GONE);
+            clDetail.setVisibility(View.VISIBLE);
+            clHeaders.setVisibility(View.VISIBLE);
+
+        } else {
+            APIServices client = RetrofitBuilder.builder(this).create(APIServices.class);
+            client.getMealById(mealId).enqueue(new Callback<ResponseDaftarResep>() {
+                @Override
+                public void onResponse(Call<ResponseDaftarResep> call, Response<ResponseDaftarResep> response) {
+                    pbDetail.setVisibility(View.GONE);
+                    clDetail.setVisibility(View.VISIBLE);
+                    clHeaders.setVisibility(View.VISIBLE);
+                    if (response.isSuccessful()) {
+
+                        ResponseResepConverter converter = new ResponseResepConverter();
+
+                        ResponseResep responseResep = response.body().getDaftarResep().get(0);
+                        Resep resepView = converter.responseToResep(responseResep);
+
+                        if (resepView.getLinkGambar() != null && !resepView.getLinkGambar().isEmpty()) {
+                            Glide.with(RecipeDetailActivity.this).load(resepView.getLinkGambar()).into(sivMeal);
+                        } else {
+                            Glide.with(RecipeDetailActivity.this).load(resepView.getGambar()).into(sivMeal);
+                        }
+                        rvIngredients.setHasFixedSize(true);
+                        rvIngredients.setLayoutManager(new LinearLayoutManager(RecipeDetailActivity.this));
+
+                        RecipeDetailAdapter adapter = new RecipeDetailAdapter(resepView.getBahanBahan(), resepView.getUkuranUkuran());
+                        rvIngredients.setAdapter(adapter);
+
+                        tvName.setText(resepView.getNama());
+                        tvCategory.setText(resepView.getKategori());
+                        tvArea.setText(resepView.getArea());
+                        tvUsername.setText(resepView.getPembuat());
+                        tvInstructions.setText(resepView.getInstruksi());
+
                     } else {
-                        Glide.with(RecipeDetailActivity.this).load(resepView.getGambar()).into(sivMeal);
+                        Toast.makeText(RecipeDetailActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
                     }
-                    rvIngredients.setHasFixedSize(true);
-                    rvIngredients.setLayoutManager(new LinearLayoutManager(RecipeDetailActivity.this));
-
-                    RecipeDetailAdapter adapter = new RecipeDetailAdapter(resepView.getBahanBahan(), resepView.getUkuranUkuran());
-                    rvIngredients.setAdapter(adapter);
-
-                    tvName.setText(resepView.getNama());
-                    tvCategory.setText(resepView.getKategori());
-                    tvArea.setText(resepView.getArea());
-                    tvUsername.setText(resepView.getPembuat());
-                    tvInstructions.setText(resepView.getInstruksi());
-
-                } else {
-                    Toast.makeText(RecipeDetailActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseDaftarResep> call, Throwable t) {
-                pbDetail.setVisibility(View.GONE);
-                clDetail.setVisibility(View.VISIBLE);
-                clHeaders.setVisibility(View.VISIBLE);
-                Toast.makeText(RecipeDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<ResponseDaftarResep> call, Throwable t) {
+                    pbDetail.setVisibility(View.GONE);
+                    clDetail.setVisibility(View.VISIBLE);
+                    clHeaders.setVisibility(View.VISIBLE);
+                    Toast.makeText(RecipeDetailActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         ivBack.setOnClickListener(view -> {
             finish();
@@ -156,6 +188,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
     }
 
     void bindViews() {
+        dbHelper = new DbHelper(this);
         ivIngredientArrow = findViewById(R.id.iv_ingredients_arrow);
         ivInstructionArrow = findViewById(R.id.iv_instruksi_arrow);
         rvIngredients = findViewById(R.id.rv_ingredients);

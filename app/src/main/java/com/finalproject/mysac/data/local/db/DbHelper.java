@@ -79,6 +79,59 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
 
+    public ArrayList<Resep> getAllRecipes() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] columns = {
+                KEY_RESEP_ID,
+                KEY_RESEP_NAMA,
+                KEY_RESEP_KATEGORI,
+                KEY_RESEP_INSTRUKSI,
+                KEY_RESEP_PEMBUAT,
+                KEY_RESEP_AREA,
+                KEY_RESEP_BAHAN,
+                KEY_RESEP_TAKARAN,
+                KEY_RESEP_GAMBAR
+        };
+
+        Cursor cursor = db.query(
+                TABLE_RESEP,    // Tabel
+                columns,       // Kolom yang akan diambil
+                null,          // Tanpa WHERE clause
+                null,          // Tanpa nilai untuk WHERE clause
+                null,          // Group by
+                null,          // Having
+                null           // Order by
+        );
+
+        ArrayList<Resep> recipes = new ArrayList<>();
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String idResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_ID));
+                String namaResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_NAMA));
+                String kategoriResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_KATEGORI));
+                String instruksiResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_INSTRUKSI));
+                String pembuatResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_PEMBUAT));
+                String areaResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_AREA));
+                String bahanResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_BAHAN));
+                String takaranResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_TAKARAN));
+                byte[] gambarResep = cursor.getBlob(cursor.getColumnIndexOrThrow(KEY_RESEP_GAMBAR));
+
+                Log.d("DbHelper", "Photo Length: " + (gambarResep != null ? gambarResep.length : "null"));
+
+                Resep resep = new Resep(idResep, namaResep, kategoriResep, instruksiResep, null, pembuatResep, areaResep, gambarResep);
+                resep.setBahanBahan(ArrayListStringUtils.rawDataToArrayList(bahanResep));
+                resep.setUkuranUkuran(ArrayListStringUtils.rawDataToArrayList(takaranResep));
+
+                recipes.add(resep);
+            }
+            cursor.close();
+        }
+
+        return recipes;
+    }
+
     public ArrayList<Resep> getRecipesByCategory(String category) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -133,6 +186,61 @@ public class DbHelper extends SQLiteOpenHelper {
         }
 
         return recipes;
+    }
+
+    public Resep getRecipeById(String id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] columns = {
+                KEY_RESEP_ID,
+                KEY_RESEP_NAMA,
+                KEY_RESEP_KATEGORI,
+                KEY_RESEP_INSTRUKSI,
+                KEY_RESEP_PEMBUAT,
+                KEY_RESEP_AREA,
+                KEY_RESEP_BAHAN,
+                KEY_RESEP_TAKARAN,
+                KEY_RESEP_GAMBAR
+        };
+
+        String selection = KEY_RESEP_ID + " = ?";
+        String[] selectionArgs = {id};
+
+        Cursor cursor = db.query(
+                TABLE_RESEP,    // Tabel
+                columns,       // Kolom yang akan diambil
+                selection,     // WHERE clause
+                selectionArgs, // Nilai untuk WHERE clause
+                null,          // Group by
+                null,          // Having
+                null           // Order by
+        );
+
+        Resep resep = null;
+
+        if (cursor != null) {
+            if (cursor.moveToNext()) {
+                String idResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_ID));
+                String namaResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_NAMA));
+                String kategoriResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_KATEGORI));
+                String instruksiResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_INSTRUKSI));
+                String pembuatResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_PEMBUAT));
+                String areaResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_AREA));
+                String bahanResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_BAHAN));
+                String takaranResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_TAKARAN));
+                byte[] gambarResep = cursor.getBlob(cursor.getColumnIndexOrThrow(KEY_RESEP_GAMBAR));
+
+                Log.d("DbHelper", "Photo Length: " + (gambarResep != null ? gambarResep.length : "null"));
+
+                resep = new Resep(idResep, namaResep, kategoriResep, instruksiResep, null, pembuatResep, areaResep, gambarResep);
+                resep.setBahanBahan(ArrayListStringUtils.rawDataToArrayList(bahanResep));
+                resep.setUkuranUkuran(ArrayListStringUtils.rawDataToArrayList(takaranResep));
+
+            }
+            cursor.close();
+        }
+
+        return resep;
     }
 
     public long registerUser(String username, String name, String password) {

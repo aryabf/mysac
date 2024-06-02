@@ -107,6 +107,7 @@ public class HomeFragment extends Fragment {
         });
 
         byte[] byteList = {1, 2};
+        ArrayList<Resep> resepFromDb = dbHelper.getAllRecipes();
 
         // Ngapain cb masukin instruksi semua wkowk ^^
         listResep = new ArrayList<>();
@@ -124,6 +125,8 @@ public class HomeFragment extends Fragment {
         listResep.add(new Resep("52794", "Vegan Chocolate Cake", "Vegan", "Simply mix all dry ingredients with wet ingredients and blend altogether. Bake for 45 min on 180 degrees. Decorate with some melted vegan chocolate", "https://www.themealdb.com/images/media/meals/qxutws1486978099.jpg", "The Meal DB", "American", byteList));
         listResep.add(new Resep("53078", "Beetroot Soup (Borscht)", "Pork", "", "https://www.themealdb.com/images/media/meals/zadvgb1699012544.jpg", "The Meal DB", "Indian", byteList));
         listResep.add(new Resep("52957", "Fruit and Cream Cheese Breakfast Pastries", "Pork", "", "https://www.themealdb.com/images/media/meals/1543774956.jpg", "The Meal DB", "Indian", byteList));
+
+        listResep.addAll(resepFromDb);
 
         Collections.shuffle(listResep);
         listResep = new ArrayList<>(listResep.subList(0, 5));

@@ -85,6 +85,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         holder.itemView.getRootView().setOnClickListener(view -> {
             Intent intent = new Intent(context, RecipeDetailActivity.class);
             intent.putExtra("mealId", listMeal.get(position).getId());
+            if (listMeal.get(position).getId().length() > 10) {
+                intent.putExtra("type", "local");
+            }
             context.startActivity(intent);
         });
     }
