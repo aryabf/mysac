@@ -52,31 +52,37 @@ public class RecipeFragment extends Fragment {
 
         bindViews(view);
 
-        APIServices client = RetrofitBuilder.builder(requireContext()).create(APIServices.class);
-        client.getCategoryList().enqueue(new Callback<ResponseKategori>() {
-            @Override
-            public void onResponse(Call<ResponseKategori> call, Response<ResponseKategori> response) {
-                if (response.isSuccessful()) {
-                    pbRecipe.setVisibility(View.GONE);
-                    rvRecipe.setVisibility(View.VISIBLE);
-                    listKategori = response.body().getKategori();
-                    rvRecipe.setLayoutManager(new LinearLayoutManager(requireContext()));
-                    rvRecipe.setHasFixedSize(true);
-                    CategoryAdapter adapterCategory = new CategoryAdapter(listKategori, requireContext());
-                    rvRecipe.setAdapter(adapterCategory);
-                    int verticalSpace = getResources().getDimensionPixelSize(R.dimen.horizontal_margin);
-                    rvRecipe.addItemDecoration(new CategoryAdapter.VerticalSpaceItemDecoration(verticalSpace));
-                } else {
-                    Toast.makeText(requireContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+        // Make sure the fragment is attached before making network requests
+        if (isAdded()) {
+            APIServices client = RetrofitBuilder.builder(getContext()).create(APIServices.class);
+            client.getCategoryList().enqueue(new Callback<ResponseKategori>() {
+                @Override
+                public void onResponse(Call<ResponseKategori> call, Response<ResponseKategori> response) {
+                    if (isAdded()) { // Check if fragment is still added
+                        if (response.isSuccessful()) {
+                            pbRecipe.setVisibility(View.GONE);
+                            rvRecipe.setVisibility(View.VISIBLE);
+                            listKategori = response.body().getKategori();
+                            rvRecipe.setLayoutManager(new LinearLayoutManager(getContext()));
+                            rvRecipe.setHasFixedSize(true);
+                            CategoryAdapter adapterCategory = new CategoryAdapter(listKategori, getContext());
+                            rvRecipe.setAdapter(adapterCategory);
+                            int verticalSpace = getResources().getDimensionPixelSize(R.dimen.horizontal_margin);
+                            rvRecipe.addItemDecoration(new CategoryAdapter.VerticalSpaceItemDecoration(verticalSpace));
+                        } else {
+                            Toast.makeText(getContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseKategori> call, Throwable t) {
-                Toast.makeText(requireContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+                @Override
+                public void onFailure(Call<ResponseKategori> call, Throwable t) {
+                    if (isAdded()) { // Check if fragment is still added
+                        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
 
     void bindViews(View view) {
