@@ -1,5 +1,6 @@
 package com.finalproject.mysac.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,20 +9,27 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.finalproject.mysac.R;
+import com.finalproject.mysac.data.local.db.DbHelper;
+import com.finalproject.mysac.data.local.preferences.SharedPreferencesManager;
 import com.finalproject.mysac.data.model.Kategori;
 import com.finalproject.mysac.data.model.Resep;
+import com.finalproject.mysac.data.model.User;
 import com.finalproject.mysac.data.model.response.ResponseKategori;
 import com.finalproject.mysac.data.retrofit.APIServices;
 import com.finalproject.mysac.data.retrofit.RetrofitBuilder;
+import com.finalproject.mysac.ui.auth.MainActivity;
 import com.finalproject.mysac.ui.home.adapter.HomeCategoryAdapter;
 import com.finalproject.mysac.ui.home.adapter.HomeMealAdapter;
+import com.finalproject.mysac.ui.splash.SplashScreenActivity;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
@@ -34,19 +42,9 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
-    ShapeableImageView sivSalmonRisotto;
-    ShapeableImageView sivPadSeeEw;
-    ShapeableImageView sivEnglishBreakfast;
-    ShapeableImageView sivPumpkinPie;
-    ShapeableImageView sivCreme;
-    ShapeableImageView sivPasta;
-    ShapeableImageView sivChicken;
-    ShapeableImageView sivSeafood;
-    ShapeableImageView sivDessert;
-
     RecyclerView rvKategori;
     RecyclerView rvRekomendasi;
-
+    TextView tvNama;
     ArrayList<Kategori> listKategori;
     ArrayList<Resep> listResep;
 
@@ -66,6 +64,13 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         bindViews(view);
+
+        HomeActivity homeActivity = (HomeActivity) getActivity();
+        if (homeActivity.loggedUser == null) {
+            Log.d("oshiete kudasai", "onViewCreated: auuu");
+        } else {
+            tvNama.setText(homeActivity.loggedUser.getName());
+        }
 
         APIServices client = RetrofitBuilder.builder(view.getContext()).create(APIServices.class);
         client.getCategoryList().enqueue(new Callback<ResponseKategori>() {
@@ -94,7 +99,7 @@ public class HomeFragment extends Fragment {
 
         byte[] byteList = {1, 2};
 
-        // Shouldven't put the instructions ^^
+        // Ngapain cb masukin instruksi semua wkowk ^^
         listResep = new ArrayList<>();
         listResep.add(new Resep("52821", "Laksa King Prawn Noodles", "Seafood", "Heat the oil in a medium saucepan and add the chilli. Cook for 1 min, then add the curry paste, stir and cook for 1 min more. Dissolve the stock cube in a large jug in 700ml boiling water, then pour into the pan and stir to combine. Tip in the coconut milk and bring to the boil.\\r\\nAdd the fish sauce and a little seasoning. Toss in the noodles and cook for a further 3-4 mins until softening. Squeeze in the lime juice, add the prawns and cook through until warm, about 2-3 mins. Scatter over some of the coriander.\\r\\nServe in bowls with the remaining coriander and lime wedges on top for squeezing over.", "https://www.themealdb.com/images/media/meals/rvypwy1503069308.jpg", "The Meal DB", "Malaysian", byteList));
         listResep.add(new Resep("52943", "Oxtail with broad beans", "Beef", "Toss the oxtail with the onion, spring onion, garlic, ginger, chilli, soy sauce, thyme, salt and pepper. Heat the vegetable oil in a large frying pan over medium-high heat. Brown the oxtail in the pan until browned all over, about 10 minutes. Place into a pressure cooker, and pour in 375ml water. Cook at pressure for 25 minutes, then remove from heat, and remove the lid according to manufacturer's directions.\\r\\nAdd the broad beans and pimento berries, and bring to a simmer over medium-high heat. Dissolve the cornflour in 2 tablespoons water, and stir into the simmering oxtail. Cook and stir a few minutes until the sauce has thickened, and the broad beans are tender.", "https://www.themealdb.com/images/media/meals/1520083578.jpg", "The Meal DB", "Jamaican", byteList));
@@ -121,32 +126,10 @@ public class HomeFragment extends Fragment {
 
         int horizontalSpace = getResources().getDimensionPixelSize(R.dimen.horizontal_margin);
         rvRekomendasi.addItemDecoration(new HomeMealAdapter.HorizontalSpaceItemDecoration(horizontalSpace));
-
-//        String imgBaseUrl = "https://www.themealdb.com/images/media/meals/";
-//        String categoryBaseUrl = "https://www.themealdb.com/images/category/";
-//
-//        sivSalmonRisotto = getView().findViewById(R.id.salmonrisottoimg);
-//        sivPadSeeEw = getView().findViewById(R.id.padseeewimg);
-//        sivEnglishBreakfast = getView().findViewById(R.id.englishimg);
-//        sivPumpkinPie = getView().findViewById(R.id.pumpkinimg);
-//        sivCreme = getView().findViewById(R.id.cremeimg);
-//        sivPasta = getView().findViewById(R.id.pastaimg);
-//        sivChicken = getView().findViewById(R.id.chickenimg);
-//        sivSeafood = getView().findViewById(R.id.seafoodimg);
-//        sivDessert = getView().findViewById(R.id.dessertimg);
-//
-//        Glide.with(this).load(imgBaseUrl + "xxrxux1503070723.jpg").into(sivSalmonRisotto);
-//        Glide.with(this).load(imgBaseUrl + "uuuspp1468263334.jpg").into(sivPadSeeEw);
-//        Glide.with(this).load(imgBaseUrl + "utxryw1511721587.jpg").into(sivEnglishBreakfast);
-//        Glide.with(this).load(imgBaseUrl + "usuqtp1511385394.jpg").into(sivPumpkinPie);
-//        Glide.with(this).load(imgBaseUrl + "uryqru1511798039.jpg").into(sivCreme);
-//        Glide.with(this).load(categoryBaseUrl + "pasta.jpg").into(sivPasta);
-//        Glide.with(this).load(categoryBaseUrl + "chicken.jpg").into(sivChicken);
-//        Glide.with(this).load(categoryBaseUrl + "seafood.jpg").into(sivSeafood);
-//        Glide.with(this).load(categoryBaseUrl + "dessert.jpg").into(sivDessert);
     }
 
     void bindViews(View view) {
+        tvNama = view.findViewById(R.id.nama);
         rvKategori = view.findViewById(R.id.rv_kategori);
         rvRekomendasi = view.findViewById(R.id.rv_rekomendasi);
     }

@@ -17,6 +17,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import com.finalproject.mysac.data.model.User;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -65,5 +68,53 @@ public class DbHelper extends SQLiteOpenHelper {
         boolean isAuthenticated = cursor.getCount() > 0;
         cursor.close();
         return isAuthenticated;
+    }
+
+    public User getUserByUsername(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] columns = {
+                KEY_USER_USERNAME,
+                KEY_USER_NAME,
+                KEY_USER_PASSWORD,
+                KEY_USER_BIO,
+                KEY_USER_JUMLAH_RESEP,
+                KEY_USER_LINK_FB,
+                KEY_USER_LINK_IG,
+                KEY_USER_LINK_YT,
+                KEY_USER_PHOTO
+        };
+
+        String selection = KEY_USER_USERNAME + " = ?";
+        String[] selectionArgs = {username};
+
+        Cursor cursor = db.query(
+                TABLE_USER,    // Tabel
+                columns,       // Kolom yang akan diambil
+                selection,     // WHERE clause
+                selectionArgs, // Nilai untuk WHERE clause
+                null,          // Group by
+                null,          // Having
+                null           // Order by
+        );
+
+        User user = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                String userName = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_NAME));
+                String userPassword = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_PASSWORD));
+                String userBio = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_BIO));
+                int userJumlahResep = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_USER_JUMLAH_RESEP));
+                String userLinkFB = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_LINK_FB));
+                String userLinkIG = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_LINK_IG));
+                String userLinkYT = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_LINK_YT));
+                byte[] userPhoto = cursor.getBlob(cursor.getColumnIndexOrThrow(KEY_USER_PHOTO));
+
+                user = new User(username, userName, userPassword, userBio, userJumlahResep, userLinkFB, userLinkIG, userLinkYT, userPhoto);
+            }
+            cursor.close();
+        }
+
+        return user;
     }
 }

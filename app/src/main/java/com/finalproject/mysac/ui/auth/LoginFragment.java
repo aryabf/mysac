@@ -67,6 +67,7 @@ public class LoginFragment extends Fragment {
                 try {
                     if (dbHelper.login(username, password)) {
                         sharedPreferencesManager.setIsLoggedIn(true);
+                        sharedPreferencesManager.setLoggedUsername(username);
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

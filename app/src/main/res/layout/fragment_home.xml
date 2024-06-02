@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/nama"
             android:layout_marginStart="20dp"
-            android:text="Arya Bagus Farrazan"
+            android:text="Manis!"
             android:textSize="25dp"
             android:textStyle="bold"
             android:textColor="@color/white"

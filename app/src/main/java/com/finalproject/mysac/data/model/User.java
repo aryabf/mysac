@@ -6,6 +6,79 @@ import android.os.Parcelable;
 public class User implements Parcelable {
     String username;
     String name;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public int getJumlahResep() {
+        return jumlahResep;
+    }
+
+    public void setJumlahResep(int jumlahResep) {
+        this.jumlahResep = jumlahResep;
+    }
+
+    public String getLinkFb() {
+        return linkFb;
+    }
+
+    public void setLinkFb(String linkFb) {
+        this.linkFb = linkFb;
+    }
+
+    public String getLinkIg() {
+        return linkIg;
+    }
+
+    public void setLinkIg(String linkIg) {
+        this.linkIg = linkIg;
+    }
+
+    public String getLinkYt() {
+        return linkYt;
+    }
+
+    public void setLinkYt(String linkYt) {
+        this.linkYt = linkYt;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
     String password;
     String bio;
     int jumlahResep;
