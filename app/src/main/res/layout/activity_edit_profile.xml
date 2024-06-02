@@ -79,7 +79,8 @@
                     android:id="@+id/tiet_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Username"
+                    android:hint="Username Baru"
+                    android:enabled="false"
                     android:inputType="text"
                     android:textSize="16sp" />
 
@@ -98,7 +99,7 @@
                     android:id="@+id/tiet_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Username Baru"
+                    android:hint="Nama Baru"
                     android:inputType="text"
                     android:textSize="16sp" />
 
@@ -117,7 +118,7 @@
                     android:id="@+id/tiet_bio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Bio"
+                    android:hint="Bio Baru"
                     android:inputType="text"
                     android:textSize="16sp" />
 
@@ -136,7 +137,7 @@
                     android:id="@+id/tiet_facebook"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Link Facebook"
+                    android:hint="Link Facebook Baru"
                     android:inputType="text"
                     android:textSize="16sp" />
 
@@ -155,7 +156,7 @@
                     android:id="@+id/tiet_instagram"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Link Instagram"
+                    android:hint="Link Instagram Baru"
                     android:inputType="text"
                     android:textSize="16sp" />
 
@@ -174,7 +175,7 @@
                     android:id="@+id/tiet_youtube"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Link YouTube"
+                    android:hint="Link YouTube Baru"
                     android:inputType="text"
                     android:textSize="16sp" />
 

@@ -117,6 +117,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 String userLinkYT = cursor.getString(cursor.getColumnIndexOrThrow(KEY_USER_LINK_YT));
                 byte[] userPhoto = cursor.getBlob(cursor.getColumnIndexOrThrow(KEY_USER_PHOTO));
 
+                Log.d("DbHelper", "Photo Length: " + (userPhoto != null ? userPhoto.length : "null"));
+
                 user = new User(username, userName, userPassword, userBio, userJumlahResep, userLinkFB, userLinkIG, userLinkYT, userPhoto);
             }
             cursor.close();
@@ -124,4 +126,24 @@ public class DbHelper extends SQLiteOpenHelper {
 
         return user;
     }
+
+    public int updateUser(String username, String name, String password, String bio, String linkFb, String linkIg, String linkYt, byte[] photo) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_USER_NAME, name);
+        values.put(KEY_USER_PASSWORD, password);
+        values.put(KEY_USER_BIO, bio);
+        values.put(KEY_USER_LINK_FB, linkFb);
+        values.put(KEY_USER_LINK_IG, linkIg);
+        values.put(KEY_USER_LINK_YT, linkYt);
+        values.put(KEY_USER_PHOTO, photo);
+
+        try {
+            return db.update(TABLE_USER, values, KEY_USER_USERNAME + " = ?", new String[]{username});
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
 }

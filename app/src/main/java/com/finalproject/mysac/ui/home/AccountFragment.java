@@ -12,9 +12,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.finalproject.mysac.R;
+import com.finalproject.mysac.data.local.db.DbHelper;
+import com.finalproject.mysac.data.local.preferences.SharedPreferencesManager;
+import com.finalproject.mysac.data.model.User;
+import com.finalproject.mysac.ui.settings.EditProfileActivity;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -29,6 +36,9 @@ public class AccountFragment extends Fragment {
     ImageView ivYoutube;
     ImageView ivInstagram;
     TextView tvResep;
+    SharedPreferencesManager sharedPreferencesManager;
+    DbHelper dbHelper;
+    User loggedUser;
 
     @Nullable
     @Override
@@ -44,11 +54,15 @@ public class AccountFragment extends Fragment {
 
         bindViews(view);
 
-        HomeActivity homeActivity = (HomeActivity) getActivity();
-        if (homeActivity.loggedUser == null) {
+        sharedPreferencesManager = new SharedPreferencesManager(view.getContext());
+        String loggedUserId = sharedPreferencesManager.getLoggedUsername();
 
-            Log.d("oshiete kudasai", "onViewCreated: auuu");
-            // Set data dummy (data ini bisa diambil dari database atau API)
+        dbHelper = new DbHelper(view.getContext());
+        loggedUser = dbHelper.getUserByUsername(loggedUserId);
+
+        HomeActivity homeActivity = (HomeActivity) getActivity();
+        if (loggedUser == null) {
+
             profileImage.setImageResource(R.drawable.user); // Ganti dengan gambar profil Anda
             name.setText("-");
             username.setText("-");
@@ -56,30 +70,52 @@ public class AccountFragment extends Fragment {
 
         } else {
 
-            name.setText(homeActivity.loggedUser.getName());
-            username.setText(homeActivity.loggedUser.getUsername());
-            bio.setText(homeActivity.loggedUser.getBio());
-            tvResep.setText("" + homeActivity.loggedUser.getJumlahResep());
+            name.setText(loggedUser.getName());
+            username.setText(loggedUser.getUsername());
+            bio.setText(loggedUser.getBio());
+            tvResep.setText("" + loggedUser.getJumlahResep());
 
-            if (!Objects.equals(homeActivity.loggedUser.getLinkFb(), "")) {
+            if (loggedUser.getPhoto() != null) {
+                Glide.with(view.getContext()).load(loggedUser.getPhoto()).into(profileImage);
+            }
+
+            if (!Objects.equals(loggedUser.getLinkFb(), "")) {
                 ivFacebook.setOnClickListener(view1 -> {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(homeActivity.loggedUser.getLinkFb())));
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(loggedUser.getLinkFb())));
+                    } catch (Exception e) {
+                        Snackbar snackbar = Snackbar.make(view, "Gagal membuka Facebook.", Snackbar.LENGTH_SHORT);
+                        snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                        snackbar.show();
+                    }
                 });
             } else {
                 ivFacebook.setVisibility(View.GONE);
             }
 
-            if (!Objects.equals(homeActivity.loggedUser.getLinkIg(), "")) {
+            if (!Objects.equals(loggedUser.getLinkIg(), "")) {
                 ivInstagram.setOnClickListener(view1 -> {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(homeActivity.loggedUser.getLinkIg())));
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(loggedUser.getLinkIg())));
+                    } catch (Exception e) {
+                        Snackbar snackbar = Snackbar.make(view, "Gagal membuka Instagram.", Snackbar.LENGTH_SHORT);
+                        snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                        snackbar.show();
+                    }
                 });
             } else {
                 ivInstagram.setVisibility(View.GONE);
             }
 
-            if (!Objects.equals(homeActivity.loggedUser.getLinkYt(), "")) {
+            if (!Objects.equals(loggedUser.getLinkYt(), "")) {
                 ivYoutube.setOnClickListener(view1 -> {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(homeActivity.loggedUser.getLinkYt())));
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(loggedUser.getLinkYt())));
+                    } catch (Exception e) {
+                        Snackbar snackbar = Snackbar.make(view, "Gagal membuka YouTube.", Snackbar.LENGTH_SHORT);
+                        snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                        snackbar.show();
+                    }
                 });
             } else {
                 ivYoutube.setVisibility(View.GONE);

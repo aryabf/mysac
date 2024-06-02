@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream;
 
 public class PhotoUtils {
 
-    private byte[] bitmapToBytes(Bitmap bitmap) {
+    public static byte[] bitmapToBytes(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();

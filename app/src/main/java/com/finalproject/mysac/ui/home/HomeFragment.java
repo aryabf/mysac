@@ -47,6 +47,9 @@ public class HomeFragment extends Fragment {
     TextView tvNama;
     ArrayList<Kategori> listKategori;
     ArrayList<Resep> listResep;
+    SharedPreferencesManager sharedPreferencesManager;
+    DbHelper dbHelper;
+    User loggedUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,11 +68,17 @@ public class HomeFragment extends Fragment {
 
         bindViews(view);
 
+        sharedPreferencesManager = new SharedPreferencesManager(view.getContext());
+        String loggedUserId = sharedPreferencesManager.getLoggedUsername();
+
+        dbHelper = new DbHelper(view.getContext());
+        loggedUser = dbHelper.getUserByUsername(loggedUserId);
+
         HomeActivity homeActivity = (HomeActivity) getActivity();
-        if (homeActivity.loggedUser == null) {
+        if (loggedUser == null) {
             Log.d("oshiete kudasai", "onViewCreated: auuu");
         } else {
-            tvNama.setText(homeActivity.loggedUser.getName());
+            tvNama.setText(loggedUser.getName());
         }
 
         APIServices client = RetrofitBuilder.builder(view.getContext()).create(APIServices.class);

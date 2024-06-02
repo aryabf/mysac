@@ -96,7 +96,7 @@ public class User implements Parcelable {
         this.linkFb = linkFb;
         this.linkIg = linkIg;
         this.linkYt = linkYt;
-        this.photo = photo;
+        this.photo = profile;
     }
 
     @Override
