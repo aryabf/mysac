@@ -76,7 +76,12 @@ public class RecipeListActivity extends AppCompatActivity {
 
             username = getIntent().getStringExtra("username");
             String name = getIntent().getStringExtra("name");
-            tvTitle.setText("Resep " + name.substring(0, name.indexOf(' ')));
+            int spaceIndex = name.indexOf(' ');
+            if (spaceIndex != -1) {
+                tvTitle.setText("Resep " + name.substring(0, spaceIndex));
+            } else {
+                tvTitle.setText("Resep " + name);
+            }
             ArrayList<Resep> resepFromDb = dbHelper.getRecipesByUsername(username);
 
             Log.d("auu", "onCreate: " + resepFromDb.size());
