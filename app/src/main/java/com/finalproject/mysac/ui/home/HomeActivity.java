@@ -39,6 +39,8 @@ public class HomeActivity extends AppCompatActivity {
             return insets;
         });
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.pumpkin));
+
         botnav = findViewById(R.id.botnav);
 
         NavHostFragment navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);

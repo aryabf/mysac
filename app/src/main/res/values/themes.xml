@@ -3,6 +3,7 @@
     <style name="Base.Theme.MySac" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/pumpkin</item>
+        <item name="android:statusBarColor">@color/pumpkin</item>
          <item name="colorSecondary">@color/amber</item>
          <item name="colorAccent">@color/amber</item>
     </style>

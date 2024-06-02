@@ -59,6 +59,8 @@ public class EditProfileActivity extends AppCompatActivity {
             return insets;
         });
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.pumpkin));
+
         bindViews();
 
         sharedPreferencesManager = new SharedPreferencesManager(getBaseContext());

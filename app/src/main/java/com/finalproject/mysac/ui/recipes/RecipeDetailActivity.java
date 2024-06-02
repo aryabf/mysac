@@ -77,6 +77,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
             return insets;
         });
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.pumpkin));
+
         if (getIntent().getStringExtra("mealId") != null) {
             mealId = getIntent().getStringExtra("mealId");
         } else {

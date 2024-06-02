@@ -33,6 +33,8 @@ public class AboutUsActivity extends AppCompatActivity {
 
         bindViews();
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.pumpkin));
+
         tvApi.setOnClickListener(view -> {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.themealdb.com/api.php")));
         });

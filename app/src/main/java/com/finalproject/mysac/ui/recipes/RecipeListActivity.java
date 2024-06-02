@@ -56,6 +56,8 @@ public class RecipeListActivity extends AppCompatActivity {
             return insets;
         });
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.pumpkin));
+
         bindViews();
 
         if (getIntent().getStringExtra("category") != null) {

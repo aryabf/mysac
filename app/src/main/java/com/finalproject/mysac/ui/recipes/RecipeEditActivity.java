@@ -75,6 +75,8 @@ public class RecipeEditActivity extends AppCompatActivity {
             return insets;
         });
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.pumpkin));
+
         bindViews();
         
         String mealId = getIntent().getStringExtra("recipeId");
