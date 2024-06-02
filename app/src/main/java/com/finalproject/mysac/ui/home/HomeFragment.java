@@ -105,6 +105,11 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        takeDataRekomendasi();
+
+    }
+
+    void takeDataRekomendasi() {
 
         byte[] byteList = {1, 2};
         ArrayList<Resep> resepFromDb = dbHelper.getAllRecipes();
@@ -132,12 +137,21 @@ public class HomeFragment extends Fragment {
         listResep = new ArrayList<>(listResep.subList(0, 5));
 
         rvRekomendasi.setHasFixedSize(true);
-        rvRekomendasi.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
-        HomeMealAdapter adapterMeal = new HomeMealAdapter(listResep, view.getContext());
+        rvRekomendasi.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        HomeMealAdapter adapterMeal = new HomeMealAdapter(listResep, requireContext());
         rvRekomendasi.setAdapter(adapterMeal);
 
         int horizontalSpace = getResources().getDimensionPixelSize(R.dimen.horizontal_margin);
+        while (rvRekomendasi.getItemDecorationCount() > 0) {
+            rvRekomendasi.removeItemDecorationAt(0);
+        }
         rvRekomendasi.addItemDecoration(new HomeMealAdapter.HorizontalSpaceItemDecoration(horizontalSpace));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        takeDataRekomendasi();
     }
 
     void bindViews(View view) {

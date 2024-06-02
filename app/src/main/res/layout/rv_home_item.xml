@@ -18,6 +18,8 @@
         android:id="@+id/tv_meal_name"
         android:text="Salmon Prawn Risotto"
         android:layout_marginTop="20dp"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"

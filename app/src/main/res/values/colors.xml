@@ -7,4 +7,5 @@
     <color name="darker_gray">#858585</color>
     <color name="snackbarred">#F05454</color>
     <color name="semitrans">#99000000</color>
+    <color name="positiveblue">#0066FF</color>
 </resources>

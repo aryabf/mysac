@@ -35,4 +35,11 @@
     <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/white</item>
     </style>
+
+    <!-- DIALOG -->
+    <style name="CustomDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item> <!-- Set background to transparent -->
+        <item name="android:background">@drawable/dialog_background</item> <!-- Set a custom background -->
+    </style>
+
 </resources>

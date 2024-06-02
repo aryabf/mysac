@@ -1,6 +1,7 @@
 package com.finalproject.mysac.ui.recipes;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -59,6 +62,7 @@ public class RecipeEditActivity extends AppCompatActivity {
     SharedPreferencesManager sharedPreferencesManager;
     User loggedUser;
     String kategoriResep;
+    Button btnDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +166,35 @@ public class RecipeEditActivity extends AppCompatActivity {
             }
 
         });
+
+        btnDelete.setOnClickListener(view -> {
+            Dialog dialog = new Dialog(RecipeEditActivity.this, R.style.CustomDialog);
+            dialog.setContentView(R.layout.custom_alert_dialog_background);
+            int marginInPix = (int) (24 * RecipeEditActivity.this.getResources().getDisplayMetrics().density);
+            Window window = dialog.getWindow();
+
+            window.setLayout(RecipeEditActivity.this.getResources().getDisplayMetrics().widthPixels - 2 * marginInPix, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.findViewById(R.id.negative).setOnClickListener(view1 -> dialog.cancel());
+            dialog.findViewById(R.id.positive).setOnClickListener(view1 -> {
+                if (dbHelper.deleteRecipe(resep.getId()) > 0) {
+                    Toast.makeText(RecipeEditActivity.this, "Resep " + resep.getNama() + " berhasil dihapus.", Toast.LENGTH_SHORT).show();
+                    dialog.cancel();
+//                    finish();
+                    Intent intent = new Intent(RecipeEditActivity.this, RecipeListActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("username", loggedUser.getUsername());
+                    intent.putExtra("name", loggedUser.getName());
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Snackbar snackbar = Snackbar.make(view, "Gagal menghapus resep.", Snackbar.LENGTH_SHORT);
+                    snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                    snackbar.show();
+                    dialog.cancel();
+                }
+            });
+            dialog.show();
+        });
     }
 
     void bindViews() {
@@ -175,6 +208,7 @@ public class RecipeEditActivity extends AppCompatActivity {
         spnKategori = findViewById(R.id.spn_kategori);
         tvTambahBahan = findViewById(R.id.tv_tambah_bahan);
         btnBuat = findViewById(R.id.btn_post);
+        btnDelete = findViewById(R.id.btn_delete);
         rvBahan = findViewById(R.id.rv_bahan);
         bahanAdapter = new BahanAdapter(listBahan, rvBahan);
         dbHelper = new DbHelper(getBaseContext());
