@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.finalproject.mysac.R;
+import com.finalproject.mysac.data.local.db.DbHelper;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class RegisterFragment extends Fragment {
@@ -23,6 +26,7 @@ public class RegisterFragment extends Fragment {
     TextInputEditText tietConfirm;
     Button btnRegister;
     TextView tvLogin;
+    DbHelper dbHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,13 +45,41 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         bindViews(view);
+
         tvLogin.setOnClickListener(view1 -> {
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fcv_main, new LoginFragment()).commit();
         });
 
+        btnRegister.setOnClickListener(view1 -> {
+
+            String name = tietName.getText().toString();
+            String username = tietUsername.getText().toString();
+            String password = tietPassword.getText().toString();
+            String confirm = tietConfirm.getText().toString();
+
+            if (name.isEmpty() || username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
+                Snackbar snackbar = Snackbar.make(view, "Mohon isi seluruh field.", Snackbar.LENGTH_SHORT);
+                snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                snackbar.show();
+            } else if (!password.equals(confirm)) {
+                Snackbar snackbar = Snackbar.make(view, "Password tidak cocok.", Snackbar.LENGTH_SHORT);
+                snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                snackbar.show();
+            } else {
+                try {
+                    dbHelper.registerUser(username, name, password);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fcv_main, new LoginFragment()).commit();
+                } catch (Exception e) {
+                    Snackbar snackbar = Snackbar.make(view, "Gagal menambahkan akun.", Snackbar.LENGTH_SHORT);
+                    snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                    snackbar.show();
+                }
+            }
+        });
     }
 
     void bindViews(View view) {
+        dbHelper = new DbHelper(view.getContext());
         tietName = view.findViewById(R.id.tiet_nama);
         tietUsername = view.findViewById(R.id.tiet_username);
         tietPassword = view.findViewById(R.id.tiet_password);
