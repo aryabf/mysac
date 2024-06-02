@@ -21,12 +21,8 @@ import java.util.ArrayList;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
-    public ArrayList<Resep> listMeal;
-    Context context;
-
-    ImageView ivRecipe;
-    TextView tvRecipe;
-    TextView tvCreator;
+    private ArrayList<Resep> listMeal;
+    private Context context;
 
     public static class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
@@ -66,26 +62,30 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recipe, parent, false);
-        return new RecipeAdapter.RecipeViewHolder(view);
+        return new RecipeViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-        if (listMeal.get(position).getLinkGambar() != null && !listMeal.get(position).getLinkGambar().isEmpty()) {
-            Glide.with(holder.itemView.getContext()).load(listMeal.get(position).getLinkGambar()).into(ivRecipe);
+        Resep resep = listMeal.get(position);
+
+        if (resep.getLinkGambar() != null && !resep.getLinkGambar().isEmpty()) {
+            Glide.with(holder.itemView.getContext()).load(resep.getLinkGambar()).into(holder.ivRecipe);
         } else {
-            Glide.with(holder.itemView.getContext()).load(listMeal.get(position).getGambar()).into(ivRecipe);
+            Glide.with(holder.itemView.getContext()).load(resep.getGambar()).into(holder.ivRecipe);
         }
-        tvRecipe.setText(listMeal.get(position).getNama());
-        if (listMeal.get(position).getPembuat() != null && !listMeal.get(position).getPembuat().isEmpty()) {
-            tvCreator.setText(listMeal.get(position).getNamaPembuat());
+
+        holder.tvRecipe.setText(resep.getNama());
+        if (resep.getPembuat() != null && !resep.getPembuat().isEmpty()) {
+            holder.tvCreator.setText(resep.getNamaPembuat());
         } else {
-            tvCreator.setText("The Meal DB");
+            holder.tvCreator.setText("The Meal DB");
         }
-        holder.itemView.getRootView().setOnClickListener(view -> {
+
+        holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(context, RecipeDetailActivity.class);
-            intent.putExtra("mealId", listMeal.get(position).getId());
-            if (listMeal.get(position).getId().length() > 10) {
+            intent.putExtra("mealId", resep.getId());
+            if (resep.getId().length() > 10) {
                 intent.putExtra("type", "local");
             }
             context.startActivity(intent);
@@ -97,7 +97,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return listMeal.size();
     }
 
-    public class RecipeViewHolder extends RecyclerView.ViewHolder {
+    public static class RecipeViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView ivRecipe;
+        TextView tvRecipe;
+        TextView tvCreator;
 
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
