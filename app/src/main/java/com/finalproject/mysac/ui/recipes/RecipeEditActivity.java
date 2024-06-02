@@ -177,15 +177,27 @@ public class RecipeEditActivity extends AppCompatActivity {
             dialog.findViewById(R.id.negative).setOnClickListener(view1 -> dialog.cancel());
             dialog.findViewById(R.id.positive).setOnClickListener(view1 -> {
                 if (dbHelper.deleteRecipe(resep.getId()) > 0) {
-                    Toast.makeText(RecipeEditActivity.this, "Resep " + resep.getNama() + " berhasil dihapus.", Toast.LENGTH_SHORT).show();
-                    dialog.cancel();
+                    if ((dbHelper.updateUser(
+                            loggedUser.getUsername(),
+                            loggedUser.getName(),
+                            loggedUser.getPassword(),
+                            loggedUser.getBio(),
+                            loggedUser.getLinkFb(),
+                            loggedUser.getLinkIg(),
+                            loggedUser.getLinkYt(),
+                            loggedUser.getPhoto(),
+                            loggedUser.getJumlahResep() - 1
+                    ) != -1)) {
+                        Toast.makeText(RecipeEditActivity.this, "Resep " + resep.getNama() + " berhasil dihapus.", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
 //                    finish();
-                    Intent intent = new Intent(RecipeEditActivity.this, RecipeListActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("username", loggedUser.getUsername());
-                    intent.putExtra("name", loggedUser.getName());
-                    startActivity(intent);
-                    finish();
+                        Intent intent = new Intent(RecipeEditActivity.this, RecipeListActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("username", loggedUser.getUsername());
+                        intent.putExtra("name", loggedUser.getName());
+                        startActivity(intent);
+                        finish();
+                    }
                 } else {
                     Snackbar snackbar = Snackbar.make(view, "Gagal menghapus resep.", Snackbar.LENGTH_SHORT);
                     snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
