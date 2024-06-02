@@ -12,4 +12,20 @@
     <string name="developer2">Arya Bagus Farrazan</string>
     <string name="developer3">Juan Damai Nduru</string>
     <string name="developer4">Simon Rizky Valentino Simanjuntak</string>
+    <string-array name="category">
+        <item>Beef</item>
+        <item>Chicken</item>
+        <item>Dessert</item>
+        <item>Lamb</item>
+        <item>Miscellaneous</item>
+        <item>Pasta</item>
+        <item>Pork</item>
+        <item>Seafood</item>
+        <item>Side</item>
+        <item>Starter</item>
+        <item>Vegan</item>
+        <item>Vegetarian</item>
+        <item>Breakfast</item>
+        <item>Goat</item>
+    </string-array>
 </resources>
