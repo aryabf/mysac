@@ -42,6 +42,8 @@ public class RecipeListActivity extends AppCompatActivity {
     RecyclerView rvRecipeList;
     ProgressBar pbRecipeList;
     DbHelper dbHelper;
+    String category;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,6 @@ public class RecipeListActivity extends AppCompatActivity {
         });
 
         bindViews();
-        String category;
-        String username;
 
         if (getIntent().getStringExtra("category") != null) {
             category = getIntent().getStringExtra("category");
@@ -66,6 +66,12 @@ public class RecipeListActivity extends AppCompatActivity {
 
         ivBack.setOnClickListener(view -> finish());
 
+        // Disini
+        takeData();
+
+    }
+
+    void takeData() {
         if (getIntent().getStringExtra("username") != null) {
 
             username = getIntent().getStringExtra("username");
@@ -128,7 +134,6 @@ public class RecipeListActivity extends AppCompatActivity {
             });
 
         }
-
     }
 
     void bindViews() {
@@ -137,5 +142,11 @@ public class RecipeListActivity extends AppCompatActivity {
         tvTitle = findViewById(R.id.tv_title);
         rvRecipeList = findViewById(R.id.rv_recipe_list);
         pbRecipeList = findViewById(R.id.pb_recipe_list);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        takeData();
     }
 }

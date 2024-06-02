@@ -51,8 +51,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="24dp"
-                    android:src="@drawable/baseline_edit_24"
                     android:visibility="gone"
+                    android:backgroundTint="?attr/colorSecondary"
+                    android:src="@drawable/baseline_edit_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="@id/siv_meal"/>
 

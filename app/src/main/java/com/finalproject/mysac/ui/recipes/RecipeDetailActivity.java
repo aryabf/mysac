@@ -64,6 +64,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
     FloatingActionButton fabEdit;
     User loggedUser;
     SharedPreferencesManager sharedPreferencesManager;
+    String mealId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +76,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        String mealId;
 
         if (getIntent().getStringExtra("mealId") != null) {
             mealId = getIntent().getStringExtra("mealId");
@@ -97,6 +96,46 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
         Log.d("hahah", "onCreate: dapet ini lokal ybg " + mealId);
 
+        // Disini
+        takeData();
+
+        ivBack.setOnClickListener(view -> {
+            finish();
+        });
+
+        ivIngredientArrow.setOnClickListener(view -> {
+            // Visible
+            if (isIngredientsShown) {
+                ivIngredientArrow.setImageResource(R.drawable.baseline_arrow_drop_down_24);
+                rvIngredients.setVisibility(View.GONE);
+                isIngredientsShown = false;
+            }
+            // Not Visible
+            else {
+                ivIngredientArrow.setImageResource(R.drawable.baseline_arrow_drop_up_24);
+                rvIngredients.setVisibility(View.VISIBLE);
+                isIngredientsShown = true;
+            }
+        });
+
+        ivInstructionArrow.setOnClickListener(view -> {
+            // Visible
+            if (isInstructionsShown) {
+                ivInstructionArrow.setImageResource(R.drawable.baseline_arrow_drop_down_24);
+                tvInstructions.setVisibility(View.GONE);
+                isInstructionsShown = false;
+            }
+            // Not Visible
+            else {
+                ivInstructionArrow.setImageResource(R.drawable.baseline_arrow_drop_up_24);
+                tvInstructions.setVisibility(View.VISIBLE);
+                isInstructionsShown = true;
+            }
+        });
+
+    }
+
+    void takeData() {
         if (mealId.length() > 10) {
             Resep resepView = dbHelper.getRecipeById(mealId);
 
@@ -180,41 +219,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
                 }
             });
         }
-
-        ivBack.setOnClickListener(view -> {
-            finish();
-        });
-
-        ivIngredientArrow.setOnClickListener(view -> {
-            // Visible
-            if (isIngredientsShown) {
-                ivIngredientArrow.setImageResource(R.drawable.baseline_arrow_drop_down_24);
-                rvIngredients.setVisibility(View.GONE);
-                isIngredientsShown = false;
-            }
-            // Not Visible
-            else {
-                ivIngredientArrow.setImageResource(R.drawable.baseline_arrow_drop_up_24);
-                rvIngredients.setVisibility(View.VISIBLE);
-                isIngredientsShown = true;
-            }
-        });
-
-        ivInstructionArrow.setOnClickListener(view -> {
-            // Visible
-            if (isInstructionsShown) {
-                ivInstructionArrow.setImageResource(R.drawable.baseline_arrow_drop_down_24);
-                tvInstructions.setVisibility(View.GONE);
-                isInstructionsShown = false;
-            }
-            // Not Visible
-            else {
-                ivInstructionArrow.setImageResource(R.drawable.baseline_arrow_drop_up_24);
-                tvInstructions.setVisibility(View.VISIBLE);
-                isInstructionsShown = true;
-            }
-        });
-
     }
 
     void bindViews() {
@@ -236,4 +240,9 @@ public class RecipeDetailActivity extends AppCompatActivity {
         fabEdit = findViewById(R.id.fab_edit);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        takeData();
+    }
 }
