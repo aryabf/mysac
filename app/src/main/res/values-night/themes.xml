@@ -6,6 +6,7 @@
         <item name="android:statusBarColor">@color/pumpkin</item>
         <item name="colorSecondary">@color/amber</item>
         <item name="colorAccent">@color/amber</item>
+        <item name="colorControlActivated">@color/amber</item>
     </style>
 
     <style name="Theme.MySac" parent="Base.Theme.MySac">
@@ -16,7 +17,7 @@
     <style name="RoundCorner" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>
-        <item name="color">@color/white</item>
+<!--        <item name="color">@color/white</item>-->
     </style>
 
     <!-- DIALOG -->
