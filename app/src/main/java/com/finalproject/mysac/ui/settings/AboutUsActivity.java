@@ -1,8 +1,11 @@
 package com.finalproject.mysac.ui.settings;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import com.finalproject.mysac.R;
 public class AboutUsActivity extends AppCompatActivity {
 
     ImageView ivBack;
+    TextView tvApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,10 @@ public class AboutUsActivity extends AppCompatActivity {
 
         bindViews();
 
+        tvApi.setOnClickListener(view -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.themealdb.com/api.php")));
+        });
+
         ivBack.setOnClickListener(view -> {
             finish();
         });
@@ -36,5 +44,6 @@ public class AboutUsActivity extends AppCompatActivity {
 
     void bindViews() {
         ivBack = findViewById(R.id.iv_back);
+        tvApi = findViewById(R.id.textViewApiSource);
     }
 }
