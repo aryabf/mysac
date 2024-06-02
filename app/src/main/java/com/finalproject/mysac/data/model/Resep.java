@@ -1,8 +1,11 @@
 package com.finalproject.mysac.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class Resep {
+public class Resep implements Parcelable {
 
     String id;
 
@@ -95,8 +98,26 @@ public class Resep {
     String area;
     ArrayList<String> ukuranUkuran;
     byte[] gambar;
+    byte[] gambarPembuat;
+    String namaPembuat;
 
-    public Resep(String id, String nama, String kategori, String instruksi, String linkGambar, String pembuat, String area, byte[] gambar) {
+    public byte[] getGambarPembuat() {
+        return gambarPembuat;
+    }
+
+    public void setGambarPembuat(byte[] gambarPembuat) {
+        this.gambarPembuat = gambarPembuat;
+    }
+
+    public String getNamaPembuat() {
+        return namaPembuat;
+    }
+
+    public void setNamaPembuat(String namaPembuat) {
+        this.namaPembuat = namaPembuat;
+    }
+
+    public Resep(String id, String nama, String kategori, String instruksi, String linkGambar, String pembuat, String area, byte[] gambar, byte[] gambarPembuat, String namaPembuat) {
         this.id = id;
         this.nama = nama;
         this.kategori = kategori;
@@ -105,6 +126,70 @@ public class Resep {
         this.pembuat = pembuat;
         this.gambar = gambar;
         this.area = area;
+        this.gambarPembuat = gambarPembuat;
+        this.namaPembuat = namaPembuat;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.nama);
+        dest.writeString(this.kategori);
+        dest.writeString(this.instruksi);
+        dest.writeString(this.linkGambar);
+        dest.writeStringList(this.bahanBahan);
+        dest.writeString(this.pembuat);
+        dest.writeString(this.area);
+        dest.writeStringList(this.ukuranUkuran);
+        dest.writeByteArray(this.gambar);
+        dest.writeByteArray(this.gambarPembuat);
+        dest.writeString(this.namaPembuat);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.id = source.readString();
+        this.nama = source.readString();
+        this.kategori = source.readString();
+        this.instruksi = source.readString();
+        this.linkGambar = source.readString();
+        this.bahanBahan = source.createStringArrayList();
+        this.pembuat = source.readString();
+        this.area = source.readString();
+        this.ukuranUkuran = source.createStringArrayList();
+        this.gambar = source.createByteArray();
+        this.gambarPembuat = source.createByteArray();
+        this.namaPembuat = source.readString();
+    }
+
+    protected Resep(Parcel in) {
+        this.id = in.readString();
+        this.nama = in.readString();
+        this.kategori = in.readString();
+        this.instruksi = in.readString();
+        this.linkGambar = in.readString();
+        this.bahanBahan = in.createStringArrayList();
+        this.pembuat = in.readString();
+        this.area = in.readString();
+        this.ukuranUkuran = in.createStringArrayList();
+        this.gambar = in.createByteArray();
+        this.gambarPembuat = in.createByteArray();
+        this.namaPembuat = in.readString();
+    }
+
+    public static final Parcelable.Creator<Resep> CREATOR = new Parcelable.Creator<Resep>() {
+        @Override
+        public Resep createFromParcel(Parcel source) {
+            return new Resep(source);
+        }
+
+        @Override
+        public Resep[] newArray(int size) {
+            return new Resep[size];
+        }
+    };
 }

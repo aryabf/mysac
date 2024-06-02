@@ -56,6 +56,7 @@ public class RecipeListActivity extends AppCompatActivity {
 
         bindViews();
         String category;
+        String username;
 
         if (getIntent().getStringExtra("category") != null) {
             category = getIntent().getStringExtra("category");
@@ -63,50 +64,70 @@ public class RecipeListActivity extends AppCompatActivity {
             category = DEFAULT_CATEGORY;
         }
 
-        tvTitle.setText(category);
         ivBack.setOnClickListener(view -> finish());
 
-        APIServices client = RetrofitBuilder.builder(this).create(APIServices.class);
-        client.getMealListByCategory(category).enqueue(new Callback<ResponseDaftarResep>() {
-            @Override
-            public void onResponse(Call<ResponseDaftarResep> call, Response<ResponseDaftarResep> response) {
+        if (getIntent().getStringExtra("username") != null) {
 
-                pbRecipeList.setVisibility(View.GONE);
+            username = getIntent().getStringExtra("username");
+            String name = getIntent().getStringExtra("name");
+            tvTitle.setText("Resep " + name.substring(0, name.indexOf(' ')));
+            ArrayList<Resep> resepFromDb = dbHelper.getRecipesByUsername(username);
 
-                if (response.isSuccessful()) {
+            Log.d("auu", "onCreate: " + resepFromDb.size());
+            pbRecipeList.setVisibility(View.GONE);
+            rvRecipeList.setVisibility(View.VISIBLE);
+            rvRecipeList.setHasFixedSize(true);
+            rvRecipeList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            RecipeAdapter adapter = new RecipeAdapter(resepFromDb, RecipeListActivity.this);
+            rvRecipeList.setAdapter(adapter);
+            rvRecipeList.addItemDecoration(new RecipeAdapter.GridSpacingItemDecoration(2, 24, true));
 
-                    List<ResponseResep> responseList = response.body().getDaftarResep();
-                    ArrayList<Resep> resepList = new ArrayList<Resep>();
-                    ResponseResepConverter converter = new ResponseResepConverter();
+        } else {
+            tvTitle.setText(category);
 
-                    ArrayList<Resep> resepFromDatabase = dbHelper.getRecipesByCategory(category);
+            APIServices client = RetrofitBuilder.builder(this).create(APIServices.class);
+            client.getMealListByCategory(category).enqueue(new Callback<ResponseDaftarResep>() {
+                @Override
+                public void onResponse(Call<ResponseDaftarResep> call, Response<ResponseDaftarResep> response) {
 
-                    for (int i = 0; i < responseList.size(); i++) {
-                        Resep resep = converter.responseToResep(responseList.get(i));
-                        resepList.add(resep);
+                    pbRecipeList.setVisibility(View.GONE);
+
+                    if (response.isSuccessful()) {
+
+                        List<ResponseResep> responseList = response.body().getDaftarResep();
+                        ArrayList<Resep> resepList = new ArrayList<Resep>();
+                        ResponseResepConverter converter = new ResponseResepConverter();
+
+                        ArrayList<Resep> resepFromDatabase = dbHelper.getRecipesByCategory(category);
+
+                        for (int i = 0; i < responseList.size(); i++) {
+                            Resep resep = converter.responseToResep(responseList.get(i));
+                            resepList.add(resep);
+                        }
+                        resepList.addAll(resepFromDatabase);
+                        Log.d("halah", "onResponse: " + resepList.get(resepList.size() - 1).getNama());
+
+                        rvRecipeList.setVisibility(View.VISIBLE);
+
+                        rvRecipeList.setHasFixedSize(true);
+                        rvRecipeList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                        RecipeAdapter adapter = new RecipeAdapter(resepList, RecipeListActivity.this);
+                        rvRecipeList.setAdapter(adapter);
+                        rvRecipeList.addItemDecoration(new RecipeAdapter.GridSpacingItemDecoration(2, 24, true));
+
+                    } else {
+                        Toast.makeText(RecipeListActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
                     }
-                    resepList.addAll(resepFromDatabase);
-                    Log.d("halah", "onResponse: " + resepList.get(resepList.size() - 1).getNama());
-
-                    rvRecipeList.setVisibility(View.VISIBLE);
-
-                    rvRecipeList.setHasFixedSize(true);
-                    rvRecipeList.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-                    RecipeAdapter adapter = new RecipeAdapter(resepList, RecipeListActivity.this);
-                    rvRecipeList.setAdapter(adapter);
-                    rvRecipeList.addItemDecoration(new RecipeAdapter.GridSpacingItemDecoration(2, 24, true));
-
-                } else {
-                    Toast.makeText(RecipeListActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseDaftarResep> call, Throwable t) {
-                pbRecipeList.setVisibility(View.GONE);
-                Toast.makeText(RecipeListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<ResponseDaftarResep> call, Throwable t) {
+                    pbRecipeList.setVisibility(View.GONE);
+                    Toast.makeText(RecipeListActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
 
     }
 

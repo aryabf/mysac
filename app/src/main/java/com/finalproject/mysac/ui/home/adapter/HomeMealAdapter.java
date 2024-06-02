@@ -66,7 +66,7 @@ public class HomeMealAdapter extends RecyclerView.Adapter<HomeMealAdapter.HomeMe
         }
         tvMealName.setText(listMeal.get(position).getNama());
         if (listMeal.get(position).getPembuat() != null && !listMeal.get(position).getPembuat().isEmpty()) {
-            tvMealCreator.setText(listMeal.get(position).getPembuat());
+            tvMealCreator.setText(listMeal.get(position).getNamaPembuat());
         } else {
             tvMealCreator.setText("The Meal DB");
         }

@@ -16,7 +16,9 @@ public class ResponseResepConverter {
                 response.getGambar(),
                 "The Meal DB",
                 response.getArea(),
-                null
+                null,
+                null,
+                "The Meal DB"
         );
 
         ArrayList<String> bahanBahan = new ArrayList<String>();

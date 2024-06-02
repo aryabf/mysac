@@ -78,7 +78,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
         tvRecipe.setText(listMeal.get(position).getNama());
         if (listMeal.get(position).getPembuat() != null && !listMeal.get(position).getPembuat().isEmpty()) {
-            tvCreator.setText(listMeal.get(position).getPembuat());
+            tvCreator.setText(listMeal.get(position).getNamaPembuat());
         } else {
             tvCreator.setText("The Meal DB");
         }

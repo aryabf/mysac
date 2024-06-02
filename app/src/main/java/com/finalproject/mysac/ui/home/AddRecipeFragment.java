@@ -134,11 +134,13 @@ public class AddRecipeFragment extends Fragment {
                         namaResep,
                         kategoriResep,
                         instruksiResep,
+                        loggedUser.getUsername(),
                         loggedUser.getName(),
                         asalResep,
                         bahanAdapter.getDataBahan(),
                         bahanAdapter.getDataTakaran(),
-                        gambarResep
+                        gambarResep,
+                        loggedUser.getPhoto()
                 ) != -1) {
                     if (dbHelper.updateUser(
                             loggedUser.getUsername(),

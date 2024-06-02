@@ -41,7 +41,9 @@ public class DbContract {
         static final String KEY_RESEP_KATEGORI = "kategori";
         static final String KEY_RESEP_INSTRUKSI = "instruksi";
         static final String KEY_RESEP_GAMBAR = "gambar";
+        static final String KEY_RESEP_GAMBAR_PEMBUAT = "gambar_pembuat";
         static final String KEY_RESEP_PEMBUAT = "pembuat";
+        static final String KEY_RESEP_NAMA_PEMBUAT = "nama_pembuat";
         static final String KEY_RESEP_AREA = "area";
         static final String KEY_RESEP_BAHAN = "bahan";
         static final String KEY_RESEP_TAKARAN = "takaran";
@@ -53,9 +55,11 @@ public class DbContract {
                         + KEY_RESEP_KATEGORI + " TEXT, "
                         + KEY_RESEP_INSTRUKSI + " TEXT, "
                         + KEY_RESEP_PEMBUAT + " TEXT, "
+                        + KEY_RESEP_NAMA_PEMBUAT + " TEXT, "
                         + KEY_RESEP_AREA + " TEXT, "
                         + KEY_RESEP_BAHAN + " TEXT, "
                         + KEY_RESEP_TAKARAN + " TEXT, "
+                        + KEY_RESEP_GAMBAR_PEMBUAT + " BLOB, "
                         + KEY_RESEP_GAMBAR + " BLOB"
                         + ");"
                 ;

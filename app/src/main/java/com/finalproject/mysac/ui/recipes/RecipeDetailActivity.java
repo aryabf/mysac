@@ -1,5 +1,6 @@
 package com.finalproject.mysac.ui.recipes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,17 +21,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.finalproject.mysac.R;
 import com.finalproject.mysac.data.local.db.DbHelper;
+import com.finalproject.mysac.data.local.preferences.SharedPreferencesManager;
 import com.finalproject.mysac.data.model.Resep;
+import com.finalproject.mysac.data.model.User;
 import com.finalproject.mysac.data.model.response.ResponseDaftarResep;
 import com.finalproject.mysac.data.model.response.ResponseResep;
 import com.finalproject.mysac.data.retrofit.APIServices;
 import com.finalproject.mysac.data.retrofit.RetrofitBuilder;
 import com.finalproject.mysac.ui.recipes.adapter.RecipeDetailAdapter;
 import com.finalproject.mysac.utils.ResponseResepConverter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +60,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
     TextView tvUsername;
     ImageView ivBack;
     DbHelper dbHelper;
+    CircleImageView civCreator;
+    FloatingActionButton fabEdit;
+    User loggedUser;
+    SharedPreferencesManager sharedPreferencesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +85,13 @@ public class RecipeDetailActivity extends AppCompatActivity {
         }
 
         bindViews();
+
+        sharedPreferencesManager = new SharedPreferencesManager(getBaseContext());
+        String loggedUserId = sharedPreferencesManager.getLoggedUsername();
+
+        dbHelper = new DbHelper(this);
+        loggedUser = dbHelper.getUserByUsername(loggedUserId);
+
         clDetail.setVisibility(View.GONE);
         clHeaders.setVisibility(View.GONE);
 
@@ -88,6 +105,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
             } else {
                 Glide.with(RecipeDetailActivity.this).load(resepView.getGambar()).into(sivMeal);
             }
+
+            if (resepView.getGambarPembuat() != null) {
+                Glide.with(RecipeDetailActivity.this).load(resepView.getGambarPembuat()).into(civCreator);
+            }
             rvIngredients.setHasFixedSize(true);
             rvIngredients.setLayoutManager(new LinearLayoutManager(RecipeDetailActivity.this));
 
@@ -97,8 +118,17 @@ public class RecipeDetailActivity extends AppCompatActivity {
             tvName.setText(resepView.getNama());
             tvCategory.setText(resepView.getKategori());
             tvArea.setText(resepView.getArea());
-            tvUsername.setText(resepView.getPembuat());
+            tvUsername.setText(resepView.getNamaPembuat());
             tvInstructions.setText(resepView.getInstruksi());
+
+            if (Objects.equals(resepView.getPembuat(), loggedUser.getUsername())) {
+                fabEdit.setVisibility(View.VISIBLE);
+                fabEdit.setOnClickListener(view -> {
+                    Intent intent = new Intent(RecipeDetailActivity.this, RecipeEditActivity.class);
+                    intent.putExtra("recipeId", resepView.getId());
+                    startActivity(intent);
+                });
+            }
 
             pbDetail.setVisibility(View.GONE);
             clDetail.setVisibility(View.VISIBLE);
@@ -202,6 +232,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
         tvArea = findViewById(R.id.tv_area);
         tvUsername = findViewById(R.id.tv_username);
         ivBack = findViewById(R.id.iv_back);
+        civCreator = findViewById(R.id.civ_profile);
+        fabEdit = findViewById(R.id.fab_edit);
     }
 
 }
