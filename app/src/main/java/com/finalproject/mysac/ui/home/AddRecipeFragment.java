@@ -2,19 +2,23 @@ package com.finalproject.mysac.ui.home;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -23,12 +27,20 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.finalproject.mysac.R;
+import com.finalproject.mysac.data.local.db.DbHelper;
+import com.finalproject.mysac.data.local.preferences.SharedPreferencesManager;
+import com.finalproject.mysac.data.model.Resep;
+import com.finalproject.mysac.data.model.User;
 import com.finalproject.mysac.ui.home.adapter.BahanAdapter;
 import com.finalproject.mysac.ui.home.model.Bahan;
+import com.finalproject.mysac.utils.PhotoUtils;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.UUID;
 
 public class AddRecipeFragment extends Fragment {
 
@@ -43,6 +55,11 @@ public class AddRecipeFragment extends Fragment {
     BahanAdapter bahanAdapter;
 
     ArrayList<Bahan> listBahan;
+    DbHelper dbHelper;
+    byte[] gambarResep;
+    SharedPreferencesManager sharedPreferencesManager;
+    User loggedUser;
+    String kategoriResep;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +77,22 @@ public class AddRecipeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         bindViews(view);
+
+        sharedPreferencesManager = new SharedPreferencesManager(view.getContext());
+        String loggedUserId = sharedPreferencesManager.getLoggedUsername();
+
+        dbHelper = new DbHelper(view.getContext());
+        loggedUser = dbHelper.getUserByUsername(loggedUserId);
+
+        spnKategori.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                kategoriResep = adapterView.getItemAtPosition(i).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         ivGambar.setOnClickListener(view1 -> {
             openFileChooser();
@@ -84,6 +117,49 @@ public class AddRecipeFragment extends Fragment {
             }
         });
 
+        btnBuat.setOnClickListener(view1 -> {
+
+            String namaResep = tietNama.getText().toString();
+            String asalResep = tietAsal.getText().toString();
+            String instruksiResep = tietInstruksi.getText().toString();
+
+            if (namaResep == "" || asalResep == "" || instruksiResep == "" || !bahanAdapter.areAllFieldsFilled()) {
+                Toast.makeText(view.getContext(), namaResep + asalResep + instruksiResep + bahanAdapter.areAllFieldsFilled(), Toast.LENGTH_SHORT).show();
+                Snackbar snackbar = Snackbar.make(view, "Mohon isi seluruh field.", Snackbar.LENGTH_SHORT);
+                snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                snackbar.show();
+            } else {
+                if (dbHelper.createRecipe(
+                        UUID.randomUUID().toString(),
+                        namaResep,
+                        kategoriResep,
+                        instruksiResep,
+                        loggedUser.getName(),
+                        asalResep,
+                        bahanAdapter.getDataBahan(),
+                        bahanAdapter.getDataTakaran(),
+                        gambarResep
+                ) != -1) {
+                    Toast.makeText(view.getContext(), "Resep berhasil diunggah", Toast.LENGTH_SHORT).show();
+                    Glide.with(view.getContext()).load(R.drawable.baseline_add_photo_alternate_24).into(ivGambar);
+                    gambarResep = null;
+                    tietNama.setText("");
+                    spnKategori.setSelection(0);
+                    tietAsal.setText("");
+                    tietInstruksi.setText("");
+                    listBahan.clear();
+                    bahanAdapter.notifyDataSetChanged();
+                    rvBahan.scrollToPosition(0);
+                } else {
+                    Snackbar snackbar = Snackbar.make(view, "Gagal mengunggah resep.", Snackbar.LENGTH_SHORT);
+                    snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                    snackbar.show();
+                }
+
+            }
+
+        });
+
     }
 
     void bindViews(View view) {
@@ -100,6 +176,7 @@ public class AddRecipeFragment extends Fragment {
         btnBuat = view.findViewById(R.id.btn_post);
         rvBahan = view.findViewById(R.id.rv_bahan);
         bahanAdapter = new BahanAdapter(listBahan, rvBahan);
+        dbHelper = new DbHelper(view.getContext());
     }
 
     private void openFileChooser() {
@@ -115,7 +192,15 @@ public class AddRecipeFragment extends Fragment {
 
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
-            Glide.with(this).load(imageUri).into(ivGambar);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+                gambarResep = PhotoUtils.bitmapToBytes(bitmap);
+                Glide.with(this).load(imageUri).into(ivGambar);
+            } catch (IOException e) {
+                Snackbar snackbar = Snackbar.make(ivGambar.getRootView(), "Gagal mengambil foto.", Snackbar.LENGTH_SHORT);
+                snackbar.setBackgroundTint(ContextCompat.getColor(ivGambar.getContext(), R.color.snackbarred));
+                snackbar.show();
+            }
         }
     }
 

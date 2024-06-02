@@ -48,6 +48,36 @@ public class BahanAdapter extends RecyclerView.Adapter<BahanAdapter.BahanViewHol
         }
     }
 
+    public String getDataBahan() {
+        String data = "";
+        for (int i = 0; i < getItemCount(); i++) {
+            RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);
+            if (holder != null) {
+                BahanViewHolder bahanViewHolder = (BahanViewHolder) holder;
+                if (!bahanViewHolder.tietBahan.getText().toString().trim().isEmpty()) {
+                    data += bahanViewHolder.tietBahan.getText().toString() + "^";
+                }
+            }
+        }
+        data = data.substring(0, data.length() - 1);
+        return data;
+    }
+
+    public String getDataTakaran() {
+        String data = "";
+        for (int i = 0; i < getItemCount(); i++) {
+            RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);
+            if (holder != null) {
+                BahanViewHolder bahanViewHolder = (BahanViewHolder) holder;
+                if (!bahanViewHolder.tietTakaran.getText().toString().trim().isEmpty()) {
+                    data += bahanViewHolder.tietTakaran.getText().toString() + "^";
+                }
+            }
+        }
+        data = data.substring(0, data.length() - 1);
+        return data;
+    }
+
     public boolean areAllFieldsFilled() {
         for (int i = 0; i < getItemCount(); i++) {
             RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);

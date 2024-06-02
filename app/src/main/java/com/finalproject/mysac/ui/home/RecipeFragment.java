@@ -52,7 +52,7 @@ public class RecipeFragment extends Fragment {
 
         bindViews(view);
 
-        APIServices client = RetrofitBuilder.builder(view.getContext()).create(APIServices.class);
+        APIServices client = RetrofitBuilder.builder(requireContext()).create(APIServices.class);
         client.getCategoryList().enqueue(new Callback<ResponseKategori>() {
             @Override
             public void onResponse(Call<ResponseKategori> call, Response<ResponseKategori> response) {
@@ -60,20 +60,20 @@ public class RecipeFragment extends Fragment {
                     pbRecipe.setVisibility(View.GONE);
                     rvRecipe.setVisibility(View.VISIBLE);
                     listKategori = response.body().getKategori();
-                    rvRecipe.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                    rvRecipe.setLayoutManager(new LinearLayoutManager(requireContext()));
                     rvRecipe.setHasFixedSize(true);
-                    CategoryAdapter adapterCategory = new CategoryAdapter(listKategori, view.getContext());
+                    CategoryAdapter adapterCategory = new CategoryAdapter(listKategori, requireContext());
                     rvRecipe.setAdapter(adapterCategory);
                     int verticalSpace = getResources().getDimensionPixelSize(R.dimen.horizontal_margin);
                     rvRecipe.addItemDecoration(new CategoryAdapter.VerticalSpaceItemDecoration(verticalSpace));
                 } else {
-                    Toast.makeText(view.getContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), response.body().toString(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseKategori> call, Throwable t) {
-                Toast.makeText(view.getContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

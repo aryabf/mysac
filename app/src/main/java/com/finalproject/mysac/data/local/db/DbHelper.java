@@ -1,5 +1,14 @@
 package com.finalproject.mysac.data.local.db;
 
+import static com.finalproject.mysac.data.local.db.DbContract.ResepEntry.KEY_RESEP_AREA;
+import static com.finalproject.mysac.data.local.db.DbContract.ResepEntry.KEY_RESEP_BAHAN;
+import static com.finalproject.mysac.data.local.db.DbContract.ResepEntry.KEY_RESEP_GAMBAR;
+import static com.finalproject.mysac.data.local.db.DbContract.ResepEntry.KEY_RESEP_ID;
+import static com.finalproject.mysac.data.local.db.DbContract.ResepEntry.KEY_RESEP_INSTRUKSI;
+import static com.finalproject.mysac.data.local.db.DbContract.ResepEntry.KEY_RESEP_KATEGORI;
+import static com.finalproject.mysac.data.local.db.DbContract.ResepEntry.KEY_RESEP_NAMA;
+import static com.finalproject.mysac.data.local.db.DbContract.ResepEntry.KEY_RESEP_PEMBUAT;
+import static com.finalproject.mysac.data.local.db.DbContract.ResepEntry.KEY_RESEP_TAKARAN;
 import static com.finalproject.mysac.data.local.db.DbContract.ResepEntry.TABLE_RESEP;
 import static com.finalproject.mysac.data.local.db.DbContract.UserEntry.KEY_USER_BIO;
 import static com.finalproject.mysac.data.local.db.DbContract.UserEntry.KEY_USER_JUMLAH_RESEP;
@@ -22,6 +31,8 @@ import android.util.Log;
 
 import com.finalproject.mysac.data.model.User;
 
+import java.net.InetSocketAddress;
+
 public class DbHelper extends SQLiteOpenHelper {
 
     // DB Meta
@@ -42,6 +53,26 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_RESEP);
         onCreate(sqLiteDatabase);
+    }
+
+    public long createRecipe(String id, String nama, String kategori, String instruksi, String pembuat, String area, String bahan, String takaran, byte[] gambar) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_RESEP_ID, id);
+        values.put(KEY_RESEP_KATEGORI, kategori);
+        values.put(KEY_RESEP_NAMA, nama);
+        values.put(KEY_RESEP_INSTRUKSI, instruksi);
+        values.put(KEY_RESEP_PEMBUAT, pembuat);
+        values.put(KEY_RESEP_AREA, area);
+        values.put(KEY_RESEP_BAHAN, bahan);
+        values.put(KEY_RESEP_TAKARAN, takaran);
+        values.put(KEY_RESEP_GAMBAR, gambar);
+
+        try {
+            return db.insertOrThrow(TABLE_RESEP, null, values);
+        } catch (SQLiteConstraintException e) {
+            return -1;
+        }
     }
 
     public long registerUser(String username, String name, String password) {
