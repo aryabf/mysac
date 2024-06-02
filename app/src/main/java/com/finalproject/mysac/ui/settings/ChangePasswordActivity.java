@@ -27,6 +27,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     TextInputEditText tietNewPassword;
     TextInputEditText tietConfirmPassword;
     Button btnChange;
+    boolean isClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,24 +51,29 @@ public class ChangePasswordActivity extends AppCompatActivity {
         loggedUser = dbHelper.getUserByUsername(loggedUserId);
 
         btnChange.setOnClickListener(view -> {
-            if (tietNewPassword.getText().toString().equals(tietConfirmPassword.getText().toString())) {
-                dbHelper.updateUser(
-                        loggedUser.getUsername(),
-                        loggedUser.getName(),
-                        tietNewPassword.getText().toString(),
-                        loggedUser.getBio(),
-                        loggedUser.getLinkFb(),
-                        loggedUser.getLinkIg(),
-                        loggedUser.getLinkYt(),
-                        loggedUser.getPhoto(),
-                        loggedUser.getJumlahResep()
-                );
-                Toast.makeText(ChangePasswordActivity.this, "Password berhasil diganti.", Toast.LENGTH_SHORT).show();
-                finish();
-            } else {
-                Snackbar snackbar = Snackbar.make(view, "Password tidak sesuai.", Snackbar.LENGTH_SHORT);
-                snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
-                snackbar.show();
+            if (!isClicked) {
+                isClicked = true;
+                if (tietNewPassword.getText().toString().equals(tietConfirmPassword.getText().toString())) {
+                    dbHelper.updateUser(
+                            loggedUser.getUsername(),
+                            loggedUser.getName(),
+                            tietNewPassword.getText().toString(),
+                            loggedUser.getBio(),
+                            loggedUser.getLinkFb(),
+                            loggedUser.getLinkIg(),
+                            loggedUser.getLinkYt(),
+                            loggedUser.getPhoto(),
+                            loggedUser.getJumlahResep()
+                    );
+                    Toast.makeText(ChangePasswordActivity.this, "Password berhasil diganti.", Toast.LENGTH_SHORT).show();
+                    finish();
+                    isClicked = false;
+                } else {
+                    Snackbar snackbar = Snackbar.make(view, "Password tidak sesuai.", Snackbar.LENGTH_SHORT);
+                    snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                    snackbar.show();
+                    isClicked = false;
+                }
             }
         });
 

@@ -47,6 +47,8 @@ public class EditProfileActivity extends AppCompatActivity {
     EditText tietLinkYt;
     Button btnSave;
     byte[] newPhoto;
+    boolean isClicked = false;
+    boolean isPhotoClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,30 +85,40 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
         btnSave.setOnClickListener(view -> {
-            String usernameBaru = tietUsername.getText().toString();
-            String nameBaru = tietNama.getText().toString();
-            String bioBaru = tietBio.getText().toString();
-            String linkFbBaru = tietLinkFb.getText().toString();
-            String linkIgBaru = tietLinkIg.getText().toString();
-            String linkYtBaru = tietLinkYt.getText().toString();
 
-            if (usernameBaru.equals("") || nameBaru.equals("")) {
-                Snackbar snackbar = Snackbar.make(view, "Mohon isi Username dan Nama.", Snackbar.LENGTH_SHORT);
-                snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
-                snackbar.show();
-            } else {
-                if (dbHelper.updateUser(usernameBaru, nameBaru, loggedUser.getPassword(), bioBaru, linkFbBaru, linkIgBaru, linkYtBaru, newPhoto, loggedUser.getJumlahResep()) == -1) {
-                    Snackbar snackbar = Snackbar.make(view, "Gagal memperbaharui akun.", Snackbar.LENGTH_SHORT);
+            if (!isClicked) {
+                isClicked = true;
+                String usernameBaru = tietUsername.getText().toString();
+                String nameBaru = tietNama.getText().toString();
+                String bioBaru = tietBio.getText().toString();
+                String linkFbBaru = tietLinkFb.getText().toString();
+                String linkIgBaru = tietLinkIg.getText().toString();
+                String linkYtBaru = tietLinkYt.getText().toString();
+
+                if (usernameBaru.equals("") || nameBaru.equals("")) {
+                    Snackbar snackbar = Snackbar.make(view, "Mohon isi Username dan Nama.", Snackbar.LENGTH_SHORT);
                     snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
                     snackbar.show();
+                    isClicked = false;
                 } else {
-                    finish();
+                    if (dbHelper.updateUser(usernameBaru, nameBaru, loggedUser.getPassword(), bioBaru, linkFbBaru, linkIgBaru, linkYtBaru, newPhoto, loggedUser.getJumlahResep()) == -1) {
+                        Snackbar snackbar = Snackbar.make(view, "Gagal memperbaharui akun.", Snackbar.LENGTH_SHORT);
+                        snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                        snackbar.show();
+                        isClicked = false;
+                    } else {
+                        finish();
+                        isClicked = false;
+                    }
                 }
             }
         });
 
         ivFoto.setOnClickListener(view1 -> {
-            openFileChooser();
+            if (!isPhotoClicked) {
+                isPhotoClicked = true;
+                openFileChooser();
+            }
         });
 
         ivBack.setOnClickListener(view -> {
@@ -143,12 +155,15 @@ public class EditProfileActivity extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 newPhoto = PhotoUtils.bitmapToBytes(bitmap);
                 Glide.with(this).load(imageUri).into(ivFoto);
+                isPhotoClicked = false;
             } catch (IOException e) {
                 Snackbar snackbar = Snackbar.make(ivFoto.getRootView(), "Gagal mengambil foto.", Snackbar.LENGTH_SHORT);
                 snackbar.setBackgroundTint(ContextCompat.getColor(ivFoto.getContext(), R.color.snackbarred));
                 snackbar.show();
+                isPhotoClicked = false;
             }
         }
+        isPhotoClicked = false;
     }
 
 }

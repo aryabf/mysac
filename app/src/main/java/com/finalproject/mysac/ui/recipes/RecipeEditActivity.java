@@ -63,6 +63,10 @@ public class RecipeEditActivity extends AppCompatActivity {
     User loggedUser;
     String kategoriResep;
     Button btnDelete;
+    boolean isClicked = false;
+    boolean isClickedDel = false;
+    boolean isClickedConfirm = false;
+    boolean isPhotoClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +105,10 @@ public class RecipeEditActivity extends AppCompatActivity {
         });
 
         ivGambar.setOnClickListener(view1 -> {
-            openFileChooser();
+            if (!isPhotoClicked) {
+                isPhotoClicked = true;
+                openFileChooser();
+            }
         });
 
         rvBahan.setHasFixedSize(true);
@@ -125,30 +132,34 @@ public class RecipeEditActivity extends AppCompatActivity {
 
         btnBuat.setOnClickListener(view1 -> {
 
-            String namaResep = tietNama.getText().toString();
-            String asalResep = tietAsal.getText().toString();
-            String instruksiResep = tietInstruksi.getText().toString();
+            if (!isClicked) {
+                isClicked = true;
 
-            if (namaResep == "" || asalResep == "" || instruksiResep == "" || !bahanAdapter.areAllFieldsFilled()) {
-                Toast.makeText(getBaseContext(), namaResep + asalResep + instruksiResep + bahanAdapter.areAllFieldsFilled(), Toast.LENGTH_SHORT).show();
-                Snackbar snackbar = Snackbar.make(btnBuat, "Mohon isi seluruh field.", Snackbar.LENGTH_SHORT);
-                snackbar.setBackgroundTint(ContextCompat.getColor(getBaseContext(), R.color.snackbarred));
-                snackbar.show();
-            } else {
-                if (dbHelper.updateRecipe(
-                        resep.getId(),
-                        namaResep,
-                        kategoriResep,
-                        instruksiResep,
-                        loggedUser.getUsername(),
-                        loggedUser.getName(),
-                        asalResep,
-                        bahanAdapter.getDataBahan(),
-                        bahanAdapter.getDataTakaran(),
-                        gambarResep,
-                        loggedUser.getPhoto()
-                ) != -1) {
-                    Toast.makeText(RecipeEditActivity.this, "Resep berhasil diperbaharui", Toast.LENGTH_SHORT).show();
+                String namaResep = tietNama.getText().toString();
+                String asalResep = tietAsal.getText().toString();
+                String instruksiResep = tietInstruksi.getText().toString();
+
+                if (namaResep == "" || asalResep == "" || instruksiResep == "" || !bahanAdapter.areAllFieldsFilled()) {
+                    Toast.makeText(getBaseContext(), namaResep + asalResep + instruksiResep + bahanAdapter.areAllFieldsFilled(), Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(btnBuat, "Mohon isi seluruh field.", Snackbar.LENGTH_SHORT);
+                    snackbar.setBackgroundTint(ContextCompat.getColor(getBaseContext(), R.color.snackbarred));
+                    snackbar.show();
+                    isClicked = false;
+                } else {
+                    if (dbHelper.updateRecipe(
+                            resep.getId(),
+                            namaResep,
+                            kategoriResep,
+                            instruksiResep,
+                            loggedUser.getUsername(),
+                            loggedUser.getName(),
+                            asalResep,
+                            bahanAdapter.getDataBahan(),
+                            bahanAdapter.getDataTakaran(),
+                            gambarResep,
+                            loggedUser.getPhoto()
+                    ) != -1) {
+                        Toast.makeText(RecipeEditActivity.this, "Resep berhasil diperbaharui", Toast.LENGTH_SHORT).show();
 //                    Glide.with(RecipeEditActivity.this).load(R.drawable.baseline_add_photo_alternate_24).into(ivGambar);
 //                    gambarResep = null;
 //                    tietNama.setText("");
@@ -158,56 +169,74 @@ public class RecipeEditActivity extends AppCompatActivity {
 //                    listBahan.clear();
 //                    bahanAdapter.notifyDataSetChanged();
 //                    rvBahan.scrollToPosition(0);
-                    finish();
-                } else {
-                    Snackbar snackbar = Snackbar.make(btnBuat, "Gagal mengunggah resep.", Snackbar.LENGTH_SHORT);
-                    snackbar.setBackgroundTint(ContextCompat.getColor(RecipeEditActivity.this, R.color.snackbarred));
-                    snackbar.show();
-                }
+                        finish();
+                        isClicked = false;
+                    } else {
+                        Snackbar snackbar = Snackbar.make(btnBuat, "Gagal mengunggah resep.", Snackbar.LENGTH_SHORT);
+                        snackbar.setBackgroundTint(ContextCompat.getColor(RecipeEditActivity.this, R.color.snackbarred));
+                        snackbar.show();
+                        isClicked = false;
+                    }
 
+                }
             }
 
         });
 
         btnDelete.setOnClickListener(view -> {
-            Dialog dialog = new Dialog(RecipeEditActivity.this, R.style.CustomDialog);
-            dialog.setContentView(R.layout.custom_alert_dialog_background);
-            int marginInPix = (int) (24 * RecipeEditActivity.this.getResources().getDisplayMetrics().density);
-            Window window = dialog.getWindow();
 
-            window.setLayout(RecipeEditActivity.this.getResources().getDisplayMetrics().widthPixels - 2 * marginInPix, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dialog.findViewById(R.id.negative).setOnClickListener(view1 -> dialog.cancel());
-            dialog.findViewById(R.id.positive).setOnClickListener(view1 -> {
-                if (dbHelper.deleteRecipe(resep.getId()) > 0) {
-                    if ((dbHelper.updateUser(
-                            loggedUser.getUsername(),
-                            loggedUser.getName(),
-                            loggedUser.getPassword(),
-                            loggedUser.getBio(),
-                            loggedUser.getLinkFb(),
-                            loggedUser.getLinkIg(),
-                            loggedUser.getLinkYt(),
-                            loggedUser.getPhoto(),
-                            loggedUser.getJumlahResep() - 1
-                    ) != -1)) {
-                        Toast.makeText(RecipeEditActivity.this, "Resep " + resep.getNama() + " berhasil dihapus.", Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
-//                    finish();
-                        Intent intent = new Intent(RecipeEditActivity.this, RecipeListActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("username", loggedUser.getUsername());
-                        intent.putExtra("name", loggedUser.getName());
-                        startActivity(intent);
-                        finish();
-                    }
-                } else {
-                    Snackbar snackbar = Snackbar.make(view, "Gagal menghapus resep.", Snackbar.LENGTH_SHORT);
-                    snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
-                    snackbar.show();
+            if (!isClickedDel) {
+                isClickedDel = true;
+
+                Dialog dialog = new Dialog(RecipeEditActivity.this, R.style.CustomDialog);
+                dialog.setContentView(R.layout.custom_alert_dialog_background);
+                int marginInPix = (int) (24 * RecipeEditActivity.this.getResources().getDisplayMetrics().density);
+                Window window = dialog.getWindow();
+
+                window.setLayout(RecipeEditActivity.this.getResources().getDisplayMetrics().widthPixels - 2 * marginInPix, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.findViewById(R.id.negative).setOnClickListener(view1 -> {
                     dialog.cancel();
-                }
-            });
-            dialog.show();
+                    isClickedDel = false;
+                });
+                dialog.findViewById(R.id.positive).setOnClickListener(view1 -> {
+                    if (!isClickedConfirm) {
+                        isClickedConfirm = true;
+                        if (dbHelper.deleteRecipe(resep.getId()) > 0) {
+                            if ((dbHelper.updateUser(
+                                    loggedUser.getUsername(),
+                                    loggedUser.getName(),
+                                    loggedUser.getPassword(),
+                                    loggedUser.getBio(),
+                                    loggedUser.getLinkFb(),
+                                    loggedUser.getLinkIg(),
+                                    loggedUser.getLinkYt(),
+                                    loggedUser.getPhoto(),
+                                    loggedUser.getJumlahResep() - 1
+                            ) != -1)) {
+                                Toast.makeText(RecipeEditActivity.this, "Resep " + resep.getNama() + " berhasil dihapus.", Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+//                    finish();
+                                Intent intent = new Intent(RecipeEditActivity.this, RecipeListActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("username", loggedUser.getUsername());
+                                intent.putExtra("name", loggedUser.getName());
+                                startActivity(intent);
+                                finish();
+                                isClickedDel = false;
+                                isClickedConfirm = false;
+                            }
+                        } else {
+                            Snackbar snackbar = Snackbar.make(view, "Gagal menghapus resep.", Snackbar.LENGTH_SHORT);
+                            snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                            snackbar.show();
+                            dialog.cancel();
+                            isClickedConfirm = false;
+                            isClickedDel = false;
+                        }
+                    }
+                });
+                dialog.show();
+            }
         });
     }
 
@@ -316,12 +345,15 @@ public class RecipeEditActivity extends AppCompatActivity {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 gambarResep = PhotoUtils.bitmapToBytes(bitmap);
                 Glide.with(this).load(imageUri).into(ivGambar);
+                isPhotoClicked = false;
             } catch (IOException e) {
                 Snackbar snackbar = Snackbar.make(ivGambar.getRootView(), "Gagal mengambil foto.", Snackbar.LENGTH_SHORT);
                 snackbar.setBackgroundTint(ContextCompat.getColor(ivGambar.getContext(), R.color.snackbarred));
                 snackbar.show();
+                isPhotoClicked = false;
             }
         }
+        isPhotoClicked = false;
     }
 
 }

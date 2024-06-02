@@ -31,6 +31,7 @@ public class LoginFragment extends Fragment {
     TextView tvRegister;
     DbHelper dbHelper;
     private SharedPreferencesManager sharedPreferencesManager;
+    boolean isClicked = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,32 +57,41 @@ public class LoginFragment extends Fragment {
 
         btnLogin.setOnClickListener(view1 -> {
 
-            String username = tietUsername.getText().toString();
-            String password = tietPassword.getText().toString();
+            if (!isClicked) {
 
-            if (username.isEmpty() || password.isEmpty()) {
-                Snackbar snackbar = Snackbar.make(view, "Mohon isi seluruh field.", Snackbar.LENGTH_SHORT);
-                snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
-                snackbar.show();
-            } else {
-                try {
-                    if (dbHelper.login(username, password)) {
-                        sharedPreferencesManager.setIsLoggedIn(true);
-                        sharedPreferencesManager.setLoggedUsername(username);
-                        Intent intent = new Intent(getActivity(), HomeActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    } else {
-                        Snackbar snackbar = Snackbar.make(view, "Username atau Password salah.", Snackbar.LENGTH_SHORT);
-                        snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
-                        snackbar.show();
-                    }
-                } catch (Exception e) {
-                    Snackbar snackbar = Snackbar.make(view, "Gagal melakukan login.", Snackbar.LENGTH_SHORT);
+                isClicked = true;
+                String username = tietUsername.getText().toString();
+                String password = tietPassword.getText().toString();
+
+                if (username.isEmpty() || password.isEmpty()) {
+                    Snackbar snackbar = Snackbar.make(view, "Mohon isi seluruh field.", Snackbar.LENGTH_SHORT);
                     snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
                     snackbar.show();
+                    isClicked = false;
+                } else {
+                    try {
+                        if (dbHelper.login(username, password)) {
+                            sharedPreferencesManager.setIsLoggedIn(true);
+                            sharedPreferencesManager.setLoggedUsername(username);
+                            Intent intent = new Intent(getActivity(), HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            isClicked = false;
+                        } else {
+                            Snackbar snackbar = Snackbar.make(view, "Username atau Password salah.", Snackbar.LENGTH_SHORT);
+                            snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                            snackbar.show();
+                            isClicked = false;
+                        }
+                    } catch (Exception e) {
+                        Snackbar snackbar = Snackbar.make(view, "Gagal melakukan login.", Snackbar.LENGTH_SHORT);
+                        snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                        snackbar.show();
+                        isClicked = false;
+                    }
                 }
             }
+
         });
 
     }

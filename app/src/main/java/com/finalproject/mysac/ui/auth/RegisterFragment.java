@@ -28,6 +28,7 @@ public class RegisterFragment extends Fragment {
     Button btnRegister;
     TextView tvLogin;
     DbHelper dbHelper;
+    boolean isClicked = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,34 +53,41 @@ public class RegisterFragment extends Fragment {
         });
 
         btnRegister.setOnClickListener(view1 -> {
+            if (!isClicked) {
+                isClicked = true;
+                String name = tietName.getText().toString();
+                String username = tietUsername.getText().toString();
+                String password = tietPassword.getText().toString();
+                String confirm = tietConfirm.getText().toString();
 
-            String name = tietName.getText().toString();
-            String username = tietUsername.getText().toString();
-            String password = tietPassword.getText().toString();
-            String confirm = tietConfirm.getText().toString();
-
-            if (name.isEmpty() || username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
-                Snackbar snackbar = Snackbar.make(view, "Mohon isi seluruh field.", Snackbar.LENGTH_SHORT);
-                snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
-                snackbar.show();
-            } else if (!password.equals(confirm)) {
-                Snackbar snackbar = Snackbar.make(view, "Password tidak cocok.", Snackbar.LENGTH_SHORT);
-                snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
-                snackbar.show();
-            } else {
-                try {
-                    if (dbHelper.registerUser(username, name, password) == -1) {
-                        Snackbar snackbar = Snackbar.make(view, "Username sudah digunakan.", Snackbar.LENGTH_SHORT);
-                        snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
-                        snackbar.show();
-                    } else {
-                        Toast.makeText(view.getContext(), "Akun \"" + username + "\" berhasil dibuat", Toast.LENGTH_SHORT).show();
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fcv_main, new LoginFragment()).commit();
-                    }
-                } catch (Exception e) {
-                    Snackbar snackbar = Snackbar.make(view, "Gagal menambahkan akun.", Snackbar.LENGTH_SHORT);
+                if (name.isEmpty() || username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
+                    Snackbar snackbar = Snackbar.make(view, "Mohon isi seluruh field.", Snackbar.LENGTH_SHORT);
                     snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
                     snackbar.show();
+                    isClicked = false;
+                } else if (!password.equals(confirm)) {
+                    Snackbar snackbar = Snackbar.make(view, "Password tidak cocok.", Snackbar.LENGTH_SHORT);
+                    snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                    snackbar.show();
+                    isClicked = false;
+                } else {
+                    try {
+                        if (dbHelper.registerUser(username, name, password) == -1) {
+                            Snackbar snackbar = Snackbar.make(view, "Username sudah digunakan.", Snackbar.LENGTH_SHORT);
+                            snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                            snackbar.show();
+                            isClicked = false;
+                        } else {
+                            Toast.makeText(view.getContext(), "Akun \"" + username + "\" berhasil dibuat", Toast.LENGTH_SHORT).show();
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fcv_main, new LoginFragment()).commit();
+                            isClicked = false;
+                        }
+                    } catch (Exception e) {
+                        Snackbar snackbar = Snackbar.make(view, "Gagal menambahkan akun.", Snackbar.LENGTH_SHORT);
+                        snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                        snackbar.show();
+                        isClicked = false;
+                    }
                 }
             }
         });

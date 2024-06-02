@@ -60,6 +60,8 @@ public class AddRecipeFragment extends Fragment {
     SharedPreferencesManager sharedPreferencesManager;
     User loggedUser;
     String kategoriResep;
+    boolean isClicked = false;
+    boolean isPhotoClicked = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,10 @@ public class AddRecipeFragment extends Fragment {
         });
 
         ivGambar.setOnClickListener(view1 -> {
-            openFileChooser();
+            if (!isPhotoClicked) {
+                isPhotoClicked = true;
+                openFileChooser();
+            }
         });
 
         rvBahan.setHasFixedSize(true);
@@ -119,59 +124,68 @@ public class AddRecipeFragment extends Fragment {
 
         btnBuat.setOnClickListener(view1 -> {
 
-            String namaResep = tietNama.getText().toString();
-            String asalResep = tietAsal.getText().toString();
-            String instruksiResep = tietInstruksi.getText().toString();
+            if (!isClicked) {
+                isClicked = true;
 
-            if (namaResep == "" || asalResep == "" || instruksiResep == "" || !bahanAdapter.areAllFieldsFilled()) {
-                Toast.makeText(view.getContext(), namaResep + asalResep + instruksiResep + bahanAdapter.areAllFieldsFilled(), Toast.LENGTH_SHORT).show();
-                Snackbar snackbar = Snackbar.make(view, "Mohon isi seluruh field.", Snackbar.LENGTH_SHORT);
-                snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
-                snackbar.show();
-            } else {
-                if (dbHelper.createRecipe(
-                        UUID.randomUUID().toString(),
-                        namaResep,
-                        kategoriResep,
-                        instruksiResep,
-                        loggedUser.getUsername(),
-                        loggedUser.getName(),
-                        asalResep,
-                        bahanAdapter.getDataBahan(),
-                        bahanAdapter.getDataTakaran(),
-                        gambarResep,
-                        loggedUser.getPhoto()
-                ) != -1) {
-                    if (dbHelper.updateUser(
+                String namaResep = tietNama.getText().toString();
+                String asalResep = tietAsal.getText().toString();
+                String instruksiResep = tietInstruksi.getText().toString();
+
+                if (namaResep == "" || asalResep == "" || instruksiResep == "" || !bahanAdapter.areAllFieldsFilled()) {
+                    Toast.makeText(view.getContext(), namaResep + asalResep + instruksiResep + bahanAdapter.areAllFieldsFilled(), Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view, "Mohon isi seluruh field.", Snackbar.LENGTH_SHORT);
+                    snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                    snackbar.show();
+                    isClicked = false;
+                } else {
+                    if (dbHelper.createRecipe(
+                            UUID.randomUUID().toString(),
+                            namaResep,
+                            kategoriResep,
+                            instruksiResep,
                             loggedUser.getUsername(),
                             loggedUser.getName(),
-                            loggedUser.getPassword(),
-                            loggedUser.getBio(),
-                            loggedUser.getLinkFb(),
-                            loggedUser.getLinkIg(),
-                            loggedUser.getLinkYt(),
-                            loggedUser.getPhoto(),
-                            loggedUser.getJumlahResep() + 1
+                            asalResep,
+                            bahanAdapter.getDataBahan(),
+                            bahanAdapter.getDataTakaran(),
+                            gambarResep,
+                            loggedUser.getPhoto()
                     ) != -1) {
-                        Toast.makeText(view.getContext(), "Resep berhasil diunggah", Toast.LENGTH_SHORT).show();
-                        Glide.with(view.getContext()).load(R.drawable.baseline_add_photo_alternate_24).into(ivGambar);
-                        gambarResep = null;
-                        tietNama.setText("");
-                        spnKategori.setSelection(0);
-                        tietAsal.setText("");
-                        tietInstruksi.setText("");
-                        listBahan.clear();
-                        bahanAdapter.notifyDataSetChanged();
-                        rvBahan.scrollToPosition(0);
+                        if (dbHelper.updateUser(
+                                loggedUser.getUsername(),
+                                loggedUser.getName(),
+                                loggedUser.getPassword(),
+                                loggedUser.getBio(),
+                                loggedUser.getLinkFb(),
+                                loggedUser.getLinkIg(),
+                                loggedUser.getLinkYt(),
+                                loggedUser.getPhoto(),
+                                loggedUser.getJumlahResep() + 1
+                        ) != -1) {
+                            Toast.makeText(view.getContext(), "Resep berhasil diunggah", Toast.LENGTH_SHORT).show();
+                            Glide.with(view.getContext()).load(R.drawable.baseline_add_photo_alternate_24).into(ivGambar);
+                            gambarResep = null;
+                            tietNama.setText("");
+                            spnKategori.setSelection(0);
+                            tietAsal.setText("");
+                            tietInstruksi.setText("");
+                            listBahan.clear();
+                            bahanAdapter.notifyDataSetChanged();
+                            rvBahan.scrollToPosition(0);
+                            isClicked = false;
+                        } else {
+                            Snackbar snackbar = Snackbar.make(view, "Gagal mengunggah resep.", Snackbar.LENGTH_SHORT);
+                            snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                            snackbar.show();
+                            isClicked = false;
+                        }
                     } else {
                         Snackbar snackbar = Snackbar.make(view, "Gagal mengunggah resep.", Snackbar.LENGTH_SHORT);
                         snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
                         snackbar.show();
+                        isClicked = false;
                     }
-                } else {
-                    Snackbar snackbar = Snackbar.make(view, "Gagal mengunggah resep.", Snackbar.LENGTH_SHORT);
-                    snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
-                    snackbar.show();
+
                 }
 
             }
@@ -214,12 +228,15 @@ public class AddRecipeFragment extends Fragment {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
                 gambarResep = PhotoUtils.bitmapToBytes(bitmap);
                 Glide.with(this).load(imageUri).into(ivGambar);
+                isPhotoClicked = false;
             } catch (IOException e) {
                 Snackbar snackbar = Snackbar.make(ivGambar.getRootView(), "Gagal mengambil foto.", Snackbar.LENGTH_SHORT);
                 snackbar.setBackgroundTint(ContextCompat.getColor(ivGambar.getContext(), R.color.snackbarred));
                 snackbar.show();
+                isPhotoClicked = false;
             }
         }
+        isPhotoClicked = false;
     }
 
 }

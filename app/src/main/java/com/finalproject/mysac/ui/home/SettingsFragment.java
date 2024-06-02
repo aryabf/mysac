@@ -27,6 +27,7 @@ public class SettingsFragment extends Fragment {
     private SharedPreferencesManager sharedPreferencesManager;
     DbHelper dbHelper;
     User loggedUser;
+    boolean isClicked = false;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -83,10 +84,14 @@ public class SettingsFragment extends Fragment {
         });
 
         buttonLogout.setOnClickListener(v -> {
-            sharedPreferencesManager.setIsLoggedIn(false);
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            if (!isClicked) {
+                isClicked = true;
+                sharedPreferencesManager.setIsLoggedIn(false);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                isClicked = false;
+            }
         });
     }
 }
