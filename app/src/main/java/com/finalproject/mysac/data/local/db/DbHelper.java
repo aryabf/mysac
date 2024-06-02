@@ -29,9 +29,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.finalproject.mysac.data.model.Kategori;
+import com.finalproject.mysac.data.model.Resep;
 import com.finalproject.mysac.data.model.User;
+import com.finalproject.mysac.utils.ArrayListStringUtils;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -73,6 +77,62 @@ public class DbHelper extends SQLiteOpenHelper {
         } catch (SQLiteConstraintException e) {
             return -1;
         }
+    }
+
+    public ArrayList<Resep> getRecipesByCategory(String category) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] columns = {
+                KEY_RESEP_ID,
+                KEY_RESEP_NAMA,
+                KEY_RESEP_KATEGORI,
+                KEY_RESEP_INSTRUKSI,
+                KEY_RESEP_PEMBUAT,
+                KEY_RESEP_AREA,
+                KEY_RESEP_BAHAN,
+                KEY_RESEP_TAKARAN,
+                KEY_RESEP_GAMBAR
+        };
+
+        String selection = KEY_RESEP_KATEGORI + " = ?";
+        String[] selectionArgs = {category};
+
+        Cursor cursor = db.query(
+                TABLE_RESEP,    // Tabel
+                columns,       // Kolom yang akan diambil
+                selection,     // WHERE clause
+                selectionArgs, // Nilai untuk WHERE clause
+                null,          // Group by
+                null,          // Having
+                null           // Order by
+        );
+
+        ArrayList<Resep> recipes = new ArrayList<>();
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String idResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_ID));
+                String namaResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_NAMA));
+                String kategoriResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_KATEGORI));
+                String instruksiResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_INSTRUKSI));
+                String pembuatResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_PEMBUAT));
+                String areaResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_AREA));
+                String bahanResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_BAHAN));
+                String takaranResep = cursor.getString(cursor.getColumnIndexOrThrow(KEY_RESEP_TAKARAN));
+                byte[] gambarResep = cursor.getBlob(cursor.getColumnIndexOrThrow(KEY_RESEP_GAMBAR));
+
+                Log.d("DbHelper", "Photo Length: " + (gambarResep != null ? gambarResep.length : "null"));
+
+                Resep resep = new Resep(idResep, namaResep, kategoriResep, instruksiResep, null, pembuatResep, areaResep, gambarResep);
+                resep.setBahanBahan(ArrayListStringUtils.rawDataToArrayList(bahanResep));
+                resep.setUkuranUkuran(ArrayListStringUtils.rawDataToArrayList(takaranResep));
+
+                recipes.add(resep);
+            }
+            cursor.close();
+        }
+
+        return recipes;
     }
 
     public long registerUser(String username, String name, String password) {
@@ -158,7 +218,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return user;
     }
 
-    public int updateUser(String username, String name, String password, String bio, String linkFb, String linkIg, String linkYt, byte[] photo) {
+    public int updateUser(String username, String name, String password, String bio, String linkFb, String linkIg, String linkYt, byte[] photo, int jumlahResep) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -169,6 +229,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_USER_LINK_IG, linkIg);
         values.put(KEY_USER_LINK_YT, linkYt);
         values.put(KEY_USER_PHOTO, photo);
+        values.put(KEY_USER_JUMLAH_RESEP, jumlahResep);
 
         try {
             return db.update(TABLE_USER, values, KEY_USER_USERNAME + " = ?", new String[]{username});

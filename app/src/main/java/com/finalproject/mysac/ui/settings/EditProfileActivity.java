@@ -93,7 +93,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
                 snackbar.show();
             } else {
-                if (dbHelper.updateUser(usernameBaru, nameBaru, loggedUser.getPassword(), bioBaru, linkFbBaru, linkIgBaru, linkYtBaru, newPhoto) == -1) {
+                if (dbHelper.updateUser(usernameBaru, nameBaru, loggedUser.getPassword(), bioBaru, linkFbBaru, linkIgBaru, linkYtBaru, newPhoto, loggedUser.getJumlahResep()) == -1) {
                     Snackbar snackbar = Snackbar.make(view, "Gagal memperbaharui akun.", Snackbar.LENGTH_SHORT);
                     snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
                     snackbar.show();

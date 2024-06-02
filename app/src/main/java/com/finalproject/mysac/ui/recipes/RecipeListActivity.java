@@ -1,6 +1,7 @@
 package com.finalproject.mysac.ui.recipes;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.finalproject.mysac.R;
+import com.finalproject.mysac.data.local.db.DbHelper;
 import com.finalproject.mysac.data.model.Resep;
 import com.finalproject.mysac.data.model.response.ResponseDaftarResep;
 import com.finalproject.mysac.data.model.response.ResponseResep;
@@ -39,6 +41,7 @@ public class RecipeListActivity extends AppCompatActivity {
     TextView tvTitle;
     RecyclerView rvRecipeList;
     ProgressBar pbRecipeList;
+    DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +79,14 @@ public class RecipeListActivity extends AppCompatActivity {
                     ArrayList<Resep> resepList = new ArrayList<Resep>();
                     ResponseResepConverter converter = new ResponseResepConverter();
 
+                    ArrayList<Resep> resepFromDatabase = dbHelper.getRecipesByCategory(category);
+
                     for (int i = 0; i < responseList.size(); i++) {
                         Resep resep = converter.responseToResep(responseList.get(i));
                         resepList.add(resep);
                     }
+                    resepList.addAll(resepFromDatabase);
+                    Log.d("halah", "onResponse: " + resepList.get(resepList.size() - 1).getNama());
 
                     rvRecipeList.setVisibility(View.VISIBLE);
 
@@ -104,6 +111,7 @@ public class RecipeListActivity extends AppCompatActivity {
     }
 
     void bindViews() {
+        dbHelper = new DbHelper(this);
         ivBack = findViewById(R.id.iv_back);
         tvTitle = findViewById(R.id.tv_title);
         rvRecipeList = findViewById(R.id.rv_recipe_list);

@@ -140,16 +140,32 @@ public class AddRecipeFragment extends Fragment {
                         bahanAdapter.getDataTakaran(),
                         gambarResep
                 ) != -1) {
-                    Toast.makeText(view.getContext(), "Resep berhasil diunggah", Toast.LENGTH_SHORT).show();
-                    Glide.with(view.getContext()).load(R.drawable.baseline_add_photo_alternate_24).into(ivGambar);
-                    gambarResep = null;
-                    tietNama.setText("");
-                    spnKategori.setSelection(0);
-                    tietAsal.setText("");
-                    tietInstruksi.setText("");
-                    listBahan.clear();
-                    bahanAdapter.notifyDataSetChanged();
-                    rvBahan.scrollToPosition(0);
+                    if (dbHelper.updateUser(
+                            loggedUser.getUsername(),
+                            loggedUser.getName(),
+                            loggedUser.getPassword(),
+                            loggedUser.getBio(),
+                            loggedUser.getLinkFb(),
+                            loggedUser.getLinkIg(),
+                            loggedUser.getLinkYt(),
+                            loggedUser.getPhoto(),
+                            loggedUser.getJumlahResep() + 1
+                    ) != -1) {
+                        Toast.makeText(view.getContext(), "Resep berhasil diunggah", Toast.LENGTH_SHORT).show();
+                        Glide.with(view.getContext()).load(R.drawable.baseline_add_photo_alternate_24).into(ivGambar);
+                        gambarResep = null;
+                        tietNama.setText("");
+                        spnKategori.setSelection(0);
+                        tietAsal.setText("");
+                        tietInstruksi.setText("");
+                        listBahan.clear();
+                        bahanAdapter.notifyDataSetChanged();
+                        rvBahan.scrollToPosition(0);
+                    } else {
+                        Snackbar snackbar = Snackbar.make(view, "Gagal mengunggah resep.", Snackbar.LENGTH_SHORT);
+                        snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
+                        snackbar.show();
+                    }
                 } else {
                     Snackbar snackbar = Snackbar.make(view, "Gagal mengunggah resep.", Snackbar.LENGTH_SHORT);
                     snackbar.setBackgroundTint(ContextCompat.getColor(view.getContext(), R.color.snackbarred));
