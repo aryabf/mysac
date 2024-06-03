@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -40,7 +43,9 @@ import com.finalproject.mysac.utils.PhotoUtils;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -342,9 +347,40 @@ public class RecipeEditActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
             try {
+                // Get file size in bytes
+                InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                int fileSizeInBytes = inputStream.available();
+                inputStream.close();
+
+                // Convert to megabytes
+                double fileSizeInMB = fileSizeInBytes / (1024.0 * 1024.0);
+
+                // Load bitmap and check orientation
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                gambarResep = PhotoUtils.bitmapToBytes(bitmap);
-                Glide.with(this).load(imageUri).into(ivGambar);
+                bitmap = rotateImageIfRequired(bitmap, imageUri);
+
+                // Check if file size is more than 2MB
+                if (fileSizeInMB > 2.0) {
+                    // Compress the image
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    int quality = 90; // Initial quality
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+
+                    // Reduce quality until the image size is under 2MB
+                    while (outputStream.toByteArray().length > 2 * 1024 * 1024) {
+                        outputStream.reset();
+                        quality -= 10;
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+                    }
+
+                    // Get the compressed image
+                    gambarResep = outputStream.toByteArray();
+                    Glide.with(this).load(gambarResep).into(ivGambar);
+                } else {
+                    // Use the original image
+                    gambarResep = PhotoUtils.bitmapToBytes(bitmap);
+                    Glide.with(this).load(imageUri).into(ivGambar);
+                }
                 isPhotoClicked = false;
             } catch (IOException e) {
                 Snackbar snackbar = Snackbar.make(ivGambar.getRootView(), "Gagal mengambil foto.", Snackbar.LENGTH_SHORT);
@@ -356,4 +392,31 @@ public class RecipeEditActivity extends AppCompatActivity {
         isPhotoClicked = false;
     }
 
+    private Bitmap rotateImageIfRequired(Bitmap img, Uri selectedImage) throws IOException {
+        InputStream input = getContentResolver().openInputStream(selectedImage);
+        ExifInterface ei;
+        if (Build.VERSION.SDK_INT > 23)
+            ei = new ExifInterface(input);
+        else
+            ei = new ExifInterface(selectedImage.getPath());
+
+        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                return rotateImage(img, 90);
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                return rotateImage(img, 180);
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                return rotateImage(img, 270);
+            default:
+                return img;
+        }
+    }
+
+    public static Bitmap rotateImage(Bitmap img, int degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        return Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
+    }
 }
