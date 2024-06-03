@@ -144,7 +144,11 @@ public class RecipeDetailActivity extends AppCompatActivity {
             if (resepView.getLinkGambar() != null && !resepView.getLinkGambar().isEmpty()) {
                 Glide.with(RecipeDetailActivity.this).load(resepView.getLinkGambar()).into(sivMeal);
             } else {
-                Glide.with(RecipeDetailActivity.this).load(resepView.getGambar()).into(sivMeal);
+                if (resepView.getGambar() != null) {
+                    Glide.with(RecipeDetailActivity.this).load(resepView.getGambar()).into(sivMeal);
+                } else {
+                    Glide.with(RecipeDetailActivity.this).load(R.drawable.default_food).into(sivMeal);
+                }
             }
 
             if (resepView.getGambarPembuat() != null) {

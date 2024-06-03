@@ -69,10 +69,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         Resep resep = listMeal.get(position);
 
-        if (resep.getLinkGambar() != null && !resep.getLinkGambar().isEmpty()) {
-            Glide.with(holder.itemView.getContext()).load(resep.getLinkGambar()).into(holder.ivRecipe);
+        if (listMeal.get(position).getLinkGambar() != null && !listMeal.get(position).getLinkGambar().isEmpty()) {
+            Glide.with(holder.itemView.getContext()).load(listMeal.get(position).getLinkGambar()).into(holder.ivRecipe);
         } else {
-            Glide.with(holder.itemView.getContext()).load(resep.getGambar()).into(holder.ivRecipe);
+            if (listMeal.get(position).getGambar() != null) {
+                Glide.with(holder.itemView.getContext()).load(listMeal.get(position).getGambar()).into(holder.ivRecipe);
+            } else {
+                Glide.with(holder.itemView.getContext()).load(R.drawable.default_food).into(holder.ivRecipe);
+            }
         }
 
         holder.tvRecipe.setText(resep.getNama());

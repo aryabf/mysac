@@ -62,7 +62,11 @@ public class HomeMealAdapter extends RecyclerView.Adapter<HomeMealAdapter.HomeMe
         if (listMeal.get(position).getLinkGambar() != null && !listMeal.get(position).getLinkGambar().isEmpty()) {
             Glide.with(holder.itemView.getContext()).load(listMeal.get(position).getLinkGambar()).into(sivMealImg);
         } else {
-            Glide.with(holder.itemView.getContext()).load(listMeal.get(position).getGambar()).into(sivMealImg);
+            if (listMeal.get(position).getGambar() != null) {
+                Glide.with(holder.itemView.getContext()).load(listMeal.get(position).getGambar()).into(sivMealImg);
+            } else {
+                Glide.with(holder.itemView.getContext()).load(R.drawable.default_food).into(sivMealImg);
+            }
         }
         tvMealName.setText(listMeal.get(position).getNama());
         if (listMeal.get(position).getPembuat() != null && !listMeal.get(position).getPembuat().isEmpty()) {
